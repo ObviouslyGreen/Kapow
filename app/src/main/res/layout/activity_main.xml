@@ -12,7 +12,9 @@
         android:text="File Input"
         android:id="@+id/file_input_button"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/button"/>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -24,4 +26,14 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Camera"
+        android:id="@+id/button"
+        android:layout_alignRight="@+id/image_input"
+        android:layout_alignEnd="@+id/image_input"
+        android:layout_gravity="right|center"/>
+
 </RelativeLayout>
