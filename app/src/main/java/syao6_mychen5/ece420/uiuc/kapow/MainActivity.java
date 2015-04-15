@@ -2,22 +2,32 @@ package syao6_mychen5.ece420.uiuc.kapow;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.net.Uri;
-import android.database.Cursor;
 import android.widget.ImageView;
 
+
+import org.opencv.android.OpenCVLoader;
 
 public class MainActivity extends Activity
 {
     // File input code: http://stackoverflow.com/a/2636538
     private static final int SELECT_PICTURE = 1;
     private String selectedImagePath;
+    static
+    {
+        System.loadLibrary("opencv_java");
+        if (!OpenCVLoader.initDebug())
+        {
+            // Handle initialization error
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,17 +37,17 @@ public class MainActivity extends Activity
 
         ((Button) findViewById(R.id.file_input_button))
                 .setOnClickListener(new View.OnClickListener()
-                {
-                    public void onClick(View view)
-                    {
-                        Intent intent = new Intent();
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent,
-                                "Select Picture"), SELECT_PICTURE);
-                    }
-                }
-        );
+                                    {
+                                        public void onClick(View view)
+                                        {
+                                            Intent intent = new Intent();
+                                            intent.setType("image/*");
+                                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                                            startActivityForResult(Intent.createChooser(intent,
+                                                    "Select Picture"), SELECT_PICTURE);
+                                        }
+                                    }
+                );
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -105,5 +115,4 @@ public class MainActivity extends Activity
 
         return super.onOptionsItemSelected(item);
     }
-
 }
