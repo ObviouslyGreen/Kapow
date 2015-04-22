@@ -1,55 +1,47 @@
 package syao6_mychen5.ece420.uiuc.kapow;
 
-/*import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import me.uits.aiphial.imaging.FastMatrixMS;
-import me.uits.aiphial.imaging.Tools;*/
-
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
-import org.opencv.android.Utils;
-import org.opencv.core.CvType;
-import org.opencv.highgui.Highgui;
-import org.opencv.imgproc.Imgproc;
-import org.opencv.core.Mat;
+import java.util.ArrayList;
 
-import org.opencv.android.OpenCVLoader;
+import syao6_mychen5.ece420.uiuc.kapow.adapter.NavDrawerListAdapter;
+import syao6_mychen5.ece420.uiuc.kapow.model.NavDrawerItem;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
-import static org.opencv.android.Utils.matToBitmap;
-import static org.opencv.imgproc.Imgproc.bilateralFilter;
-
-public class MainActivity extends Activity
+public class MainActivity extends Activity implements FilterFragment.OnFragmentInteractionListener,
+        PageFragment.OnFragmentInteractionListener, ComicFragment.OnFragmentInteractionListener,
+        ViewFragment.OnFragmentInteractionListener
 {
-    // File input code: http://stackoverflow.com/a/2636538
-    private static final int SELECT_PICTURE = 1;
-    private String selectedImagePath;
-    static
-    {
-        System.loadLibrary("opencv_java");
-        if (!OpenCVLoader.initDebug())
-        {
-            // Handle initialization error
-        }
-    }
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+
+    // nav drawer title
+    private CharSequence mDrawerTitle;
+
+    // used to store app title
+    private CharSequence mTitle;
+
+    // slide menu items
+    private String[] navMenuTitles;
+    private TypedArray navMenuIcons;
+
+    private ArrayList<NavDrawerItem> navDrawerItems;
+    private NavDrawerListAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -57,117 +49,87 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ((Button) findViewById(R.id.file_input_button))
-                .setOnClickListener(new View.OnClickListener()
-                                    {
-                                        public void onClick(View view)
-                                        {
-                                            Intent intent = new Intent();
-                                            intent.setType("image/*");
-                                            intent.setAction(Intent.ACTION_GET_CONTENT);
-                                            startActivityForResult(Intent.createChooser(intent,
-                                                    "Select Picture"), SELECT_PICTURE);
-                                        }
-                                    }
-                );
-    }
+        mTitle = mDrawerTitle = getTitle();
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK)
+        // load slide menu items
+        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
+
+        // nav drawer icons from resources
+        navMenuIcons = getResources()
+                .obtainTypedArray(R.array.nav_drawer_icons);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
+
+        navDrawerItems = new ArrayList<NavDrawerItem>();
+
+        // adding nav drawer items to array
+        // Filtering
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
+        // Create page
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
+        // Create Comic
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
+        // View comics
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
+
+        // Recycle the typed array
+        navMenuIcons.recycle();
+
+        mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
+
+        // setting the nav drawer list adapter
+        adapter = new NavDrawerListAdapter(getApplicationContext(),
+                navDrawerItems);
+        mDrawerList.setAdapter(adapter);
+
+        // enabling action bar app icon and behaving it as toggle button
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.drawable.ic_drawer, //nav menu toggle icon
+                R.string.app_name, // nav drawer open - description for accessibility
+                R.string.app_name // nav drawer close - description for accessibility
+        )
         {
-            if (requestCode == SELECT_PICTURE)
+            public void onDrawerClosed(View view)
             {
-                Uri selectedImageUri = data.getData();
-                selectedImagePath = getPath(selectedImageUri);
-                Bitmap bitmap = null;
-                try
-                {
-                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-                Log.w("myApp", "pooooooop111111");
-                Uri filteredUri = filter(bitmap);
-      //          naiveSegmentation(selectedImagePath);
-        //        displayPhoto(Uri.parse("./msout.png"));
-                displayPhoto(filteredUri);
+                getActionBar().setTitle(mTitle);
+                // calling onPrepareOptionsMenu() to show action bar icons
+                invalidateOptionsMenu();
             }
-        }
-    }
 
-    public Uri filter(Bitmap bmp){
-        Mat imgMAT = new Mat(bmp.getHeight(), bmp.getWidth(), CvType.CV_8UC3);
-        Mat out = new Mat(bmp.getHeight(), bmp.getWidth(), CvType.CV_8UC3);
-        Utils.bitmapToMat(bmp, imgMAT);
+            public void onDrawerOpened(View drawerView)
+            {
+                getActionBar().setTitle(mDrawerTitle);
+                // calling onPrepareOptionsMenu() to hide action bar icons
+                invalidateOptionsMenu();
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        //Make Mats 8-bit 3 Channel
-        Mat dst = new Mat();
-        Imgproc.cvtColor(imgMAT,dst,Imgproc.COLOR_BGRA2BGR);
-
-        bilateralFilter(dst, out, 7, 180, 180);
-
-        //Mat to Bitmap
-        Bitmap bmpout = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), Bitmap.Config.ARGB_8888);
-        matToBitmap(out, bmpout);
-
-        //Bitmap to Uri
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bmpout.compress(Bitmap.CompressFormat.PNG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(MyApplication.getAppContext().getContentResolver(), bmpout, "Title", null);
-        return Uri.parse(path);
-    }
-
-
-
-    /*public void naiveSegmentation(String path)
-    {
-        BufferedImage srcimg = ImageIO.read(new File(path));
-        // then create a Clusterer, FastMatrixMS is a simple Mean Shift Clusterer for images
-        FastMatrixMS a = new FastMatrixMS(Tools.matrixFromImage(srcimg));
-
-        // setup filter parametrs
-        a.setColorRange(7f);
-        a.setSquareRange((short)20);
-
-        // process
-        a.doClustering();
-
-        // paint clusters on image
-        BufferedImage img = Tools.paintClusters(srcimg.getWidth(), srcimg.getHeight(), a.getClusters(), false);
-
-        // write results to file
-        ImageIO.write(img, "png", new File("./msout.png"));
-    }
-    */
-    public void displayPhoto(Uri uri)
-    {
-        ImageView img = (ImageView)findViewById(R.id.image_input);
-        img.setImageURI(uri);
-    }
-
-    public String getPath(Uri uri)
-    {
-        if( uri == null )
+        if (savedInstanceState == null)
         {
-            return null;
+            // on first time display view for first nav item
+            displayView(0);
         }
-
-        String res = uri.getPath();
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        if( cursor != null )
-        {
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            res = cursor.getString(column_index);
-            cursor.close();
-        }
-
-        return res;
     }
 
+    /**
+     * Slide menu item click listener
+     */
+    private class SlideMenuClickListener implements
+            ListView.OnItemClickListener
+    {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position,
+                                long id)
+        {
+            // display view for selected nav drawer item
+            displayView(position);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -180,18 +142,105 @@ public class MainActivity extends Activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
+        // toggle nav drawer on selecting action bar app icon/title
+        if (mDrawerToggle.onOptionsItemSelected(item))
         {
             return true;
         }
+        // Handle action bar actions click
+        switch (item.getItemId())
+        {
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
-        return super.onOptionsItemSelected(item);
+    /* *
+ * Called when invalidateOptionsMenu() is triggered
+ */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        // if nav drawer is opened, hide the action items
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    /**
+     * Diplaying fragment view for selected nav drawer list item
+     */
+    private void displayView(int position)
+    {
+        // update the main content by replacing fragments
+        Fragment fragment = null;
+        switch (position)
+        {
+            case 0:
+                fragment = new FilterFragment();
+                break;
+            case 1:
+                fragment = new PageFragment();
+                break;
+            case 2:
+                fragment = new ComicFragment();
+                break;
+            case 3:
+                fragment = new ViewFragment();
+            default:
+                break;
+        }
+
+        if (fragment != null)
+        {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frame_container, fragment).commit();
+
+            // update selected item and title, then close the drawer
+            mDrawerList.setItemChecked(position, true);
+            mDrawerList.setSelection(position);
+            setTitle(navMenuTitles[position]);
+            mDrawerLayout.closeDrawer(mDrawerList);
+        } else
+        {
+            // error in creating fragment
+            Log.e("MainActivity", "Error in creating fragment");
+        }
+    }
+
+    @Override
+    public void setTitle(CharSequence title)
+    {
+        mTitle = title;
+        getActionBar().setTitle(mTitle);
+    }
+
+    /**
+     * When using the ActionBarDrawerToggle, you must call it during
+     * onPostCreate() and onConfigurationChanged()...
+     */
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState)
+    {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggls
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    public void onFragmentInteraction(Uri uri)
+    {
+        //you can leave it empty
     }
 }
-
