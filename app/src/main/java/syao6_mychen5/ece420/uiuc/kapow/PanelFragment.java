@@ -12,23 +12,33 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.app.ListActivity;
+import android.os.AsyncTask;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ComicFragment.OnFragmentInteractionListener} interface
+ * {@link PanelFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ComicFragment#newInstance} factory method to
+ * Use the {@link PanelFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ComicFragment extends Fragment
+public class PanelFragment extends Fragment
 {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    ArrayList<Message> messages;
+    AwesomeAdapter adapter;
+    EditText text;
+    static String sender;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -45,9 +55,9 @@ public class ComicFragment extends Fragment
      * @return A new instance of fragment ComicFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ComicFragment newInstance(String param1, String param2)
+    public static PanelFragment newInstance(String param1, String param2)
     {
-        ComicFragment fragment = new ComicFragment();
+        PanelFragment fragment = new PanelFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -55,7 +65,7 @@ public class ComicFragment extends Fragment
         return fragment;
     }
 
-    public ComicFragment()
+    public PanelFragment()
     {
         // Required empty public constructor
     }
@@ -76,7 +86,14 @@ public class ComicFragment extends Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_comic, container, false);
+        View v = inflater.inflate(R.layout.fragment_panel, container, false);
+        text = (EditText) v.findViewById(R.id.text);
+        messages = new ArrayList<Message>();
+        messages.add(new Message("testyoyoswag.", true));
+        adapter = new AwesomeAdapter(MyApplication.getAppContext(), messages);
+        ListView listV = (ListView) v.findViewById(R.id.listView1);
+        listV.setAdapter(adapter);
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -125,40 +142,8 @@ public class ComicFragment extends Fragment
         public void onFragmentInteraction(Uri uri);
     }
 
-    public static class CollageView extends ImageView
+    void addNewMessage(Message m)
     {
-
-        private static final int PADDING = 8;
-        private static final float STROKE_WIDTH = 8.0f;
-
-        private Paint mBorderPaint;
-
-        public CollageView(Context context) {
-            this(context, null);
-        }
-
-        public CollageView(Context context, AttributeSet attrs) {
-            this(context, attrs, 0);
-            setPadding(PADDING, PADDING, PADDING, PADDING);
-        }
-
-        public CollageView(Context context, AttributeSet attrs, int defStyle) {
-            super(context, attrs, defStyle);
-            initBorderPaint();
-        }
-
-        private void initBorderPaint() {
-            mBorderPaint = new Paint();
-            mBorderPaint.setAntiAlias(true);
-            mBorderPaint.setStyle(Paint.Style.STROKE);
-            mBorderPaint.setColor(Color.WHITE);
-            mBorderPaint.setStrokeWidth(STROKE_WIDTH);
-        }
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            canvas.drawRect(PADDING, PADDING, getWidth() - PADDING, getHeight() - PADDING, mBorderPaint);
-        }
+        adapter.notifyDataSetChanged();
     }
 }

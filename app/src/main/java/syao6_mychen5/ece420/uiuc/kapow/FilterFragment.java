@@ -238,7 +238,7 @@ public class FilterFragment extends Fragment
         }*/
 
         //Mat to Bitmap
-        Mat newout = new Mat(bmp.getHeight(), bmp.getWidth(), CvType.CV_8UC3);;
+        Mat newout = new Mat(bmp.getHeight(), bmp.getWidth(), CvType.CV_8UC3);
         Imgproc.cvtColor(out,newout,Imgproc.COLOR_Luv2BGR);
         Bitmap bmpoutMS = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), Bitmap.Config.ARGB_8888);
         matToBitmap(newout, bmpoutMS);
