@@ -64,7 +64,6 @@ public class FilterFragment extends Fragment
     private String mParam2;
 
     private String curr_filter;
-    private ProgressDialog progressBar;
 
     static
     {
@@ -222,10 +221,7 @@ public class FilterFragment extends Fragment
                 try
                 {
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
-                    progressBar = new ProgressDialog(getActivity());
-                    progressBar.setCancelable(true);
-                    progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                    progressBar.show();
+
                     if (curr_filter.equals("Mean Shift + Toon Filter"))
                     {
                         double sp, sr;
@@ -263,7 +259,6 @@ public class FilterFragment extends Fragment
                 {
                     e.printStackTrace();
                 }
-                progressBar.dismiss();
                 displayPhoto(filteredUri);
             }
         }
