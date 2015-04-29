@@ -1,8 +1,85 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="syao6_mychen5.ece420.uiuc.kapow.ViewFragment">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:splitMotionEvents="true"
+                tools:context="syao6_mychen5.ece420.uiuc.kapow.FilterFragment">
 
+    <RelativeLayout android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_marginLeft="25dp"
+               android:layout_marginTop="25dp"
+               android:layout_marginRight="25dp"
+               android:layout_marginBottom="50dp"
+               android:id="@+id/ComicPage">
 
-</FrameLayout>
+    <syao6_mychen5.ece420.uiuc.kapow.CollageView
+        android:id="@+id/collageBgView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffffff"
+        android:adjustViewBounds="false"/>
+
+    <syao6_mychen5.ece420.uiuc.kapow.CollageView
+        android:id="@+id/display_image_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <syao6_mychen5.ece420.uiuc.kapow.CollageView
+        android:id="@+id/display_image_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <syao6_mychen5.ece420.uiuc.kapow.CollageView
+        android:id="@+id/display_image_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <syao6_mychen5.ece420.uiuc.kapow.CollageView
+        android:id="@+id/display_image_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <syao6_mychen5.ece420.uiuc.kapow.CollageView
+        android:id="@+id/display_image_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <syao6_mychen5.ece420.uiuc.kapow.CollageView
+        android:id="@+id/display_image_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="File Input"
+        android:id="@+id/file_input_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/ComicPage"
+        android:layout_alignEnd="@+id/ComicPage"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/save_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/ComicPage"
+        android:layout_alignStart="@+id/ComicPage"/>
+
+</RelativeLayout>
