@@ -36,7 +36,7 @@ public class ComicFragment extends Fragment
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SettingsFragment.
+     * @return A new instance of fragment ComicFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static ComicFragment newInstance(String param1, String param2)
@@ -70,7 +70,7 @@ public class ComicFragment extends Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        return inflater.inflate(R.layout.fragment_comic, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

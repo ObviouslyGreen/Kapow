@@ -3,6 +3,7 @@ package syao6_mychen5.ece420.uiuc.kapow;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.net.Uri;
@@ -151,6 +152,8 @@ public class MainActivity extends Activity implements FilterFragment.OnFragmentI
         switch (item.getItemId())
         {
             case R.id.action_settings:
+                Intent intent = new Intent(MainActivity.this, KapowPreferenceActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
