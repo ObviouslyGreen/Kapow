@@ -21,7 +21,8 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 /**
  * Applies a grayscale effect to the image.
  */
-public class GPUImageGrayscaleFilter extends GPUImageFilter {
+public class GPUImageGrayscaleFilter extends GPUImageFilter
+{
     public static final String GRAYSCALE_FRAGMENT_SHADER = "" +
             "precision highp float;\n" +
             "\n" +
@@ -39,7 +40,8 @@ public class GPUImageGrayscaleFilter extends GPUImageFilter {
             "  gl_FragColor = vec4(vec3(luminance), textureColor.a);\n" +
             "}";
 
-    public GPUImageGrayscaleFilter() {
+    public GPUImageGrayscaleFilter()
+    {
         super(NO_FILTER_VERTEX_SHADER, GRAYSCALE_FRAGMENT_SHADER);
     }
 }

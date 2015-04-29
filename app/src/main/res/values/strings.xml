@@ -6,7 +6,7 @@
     <string name="drawer_open">Slider Menu Opened</string>
     <string name="drawer_close">Slider Menu Closed</string>
     <string name="advanced_mode">Advanced Mode</string>
-    <string name="advanced_mode_summ">Check for to set parameters before running every filter</string>
+    <string name="advanced_mode_summ">Manually set parameters before running a filter</string>
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item>Filtering</item>
@@ -27,8 +27,21 @@
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
+    <string name="title_activity_kapow_preferences">Settings</string>
+    <string name="ms_settings">Mean Shift</string>
+    <string name="ms_spatial_res">Spatial Window Radius ( > 0)</string>
+    <string name="ms_color_res">Color Window Radius ( > 0)</string>
+    <string name="ms_max_level">Max Level (0-8)</string>
+    <string name="bilateral_settings">Bilateral Filter</string>
+    <string name="bilateral_diameter">Pixel Neighborhood Diameter</string>
+    <string name="bilateral_color">Color Filter Sigma</string>
+    <string name="bilateral_space">Space Filter Sigma</string>
+    <string name="pref_category_one">Default Values</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="filter_array">
+        <item>Mean Shift + Toon Filter</item>
+        <item>Bilateral Filter</item>
+    </string-array>
+
 
 </resources>

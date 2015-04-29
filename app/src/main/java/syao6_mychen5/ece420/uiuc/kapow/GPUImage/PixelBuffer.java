@@ -8,7 +8,18 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
+import android.graphics.Bitmap;
+import android.opengl.GLSurfaceView;
+import android.util.Log;
+
+import java.nio.IntBuffer;
+
+import javax.microedition.khronos.egl.EGL10;
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.egl.EGLContext;
+import javax.microedition.khronos.egl.EGLDisplay;
+import javax.microedition.khronos.egl.EGLSurface;
+import javax.microedition.khronos.opengles.GL10;
 
 import static javax.microedition.khronos.egl.EGL10.EGL_ALPHA_SIZE;
 import static javax.microedition.khronos.egl.EGL10.EGL_BLUE_SIZE;
@@ -24,20 +35,10 @@ import static javax.microedition.khronos.egl.EGL10.EGL_WIDTH;
 import static javax.microedition.khronos.opengles.GL10.GL_RGBA;
 import static javax.microedition.khronos.opengles.GL10.GL_UNSIGNED_BYTE;
 
-import java.nio.IntBuffer;
+;
 
-import javax.microedition.khronos.egl.EGL10;
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.egl.EGLContext;
-import javax.microedition.khronos.egl.EGLDisplay;
-import javax.microedition.khronos.egl.EGLSurface;
-import javax.microedition.khronos.opengles.GL10;
-
-import android.graphics.Bitmap;
-import android.opengl.GLSurfaceView;
-import android.util.Log;
-
-public class PixelBuffer {
+public class PixelBuffer
+{
     final static String TAG = "PixelBuffer";
     final static boolean LIST_CONFIGS = false;
 
@@ -55,12 +56,13 @@ public class PixelBuffer {
 
     String mThreadOwner;
 
-    public PixelBuffer(final int width, final int height) {
+    public PixelBuffer(final int width, final int height)
+    {
         mWidth = width;
         mHeight = height;
 
         int[] version = new int[2];
-        int[] attribList = new int[] {
+        int[] attribList = new int[]{
                 EGL_WIDTH, mWidth,
                 EGL_HEIGHT, mHeight,
                 EGL_NONE
@@ -71,7 +73,7 @@ public class PixelBuffer {
         mEGLDisplay = mEGL.eglGetDisplay(EGL_DEFAULT_DISPLAY);
         mEGL.eglInitialize(mEGLDisplay, version);
         mEGLConfig = chooseConfig(); // Choosing a config is a little more
-                                     // complicated
+        // complicated
 
         // mEGLContext = mEGL.eglCreateContext(mEGLDisplay, mEGLConfig,
         // EGL_NO_CONTEXT, null);
@@ -91,11 +93,13 @@ public class PixelBuffer {
         mThreadOwner = Thread.currentThread().getName();
     }
 
-    public void setRenderer(final GLSurfaceView.Renderer renderer) {
+    public void setRenderer(final GLSurfaceView.Renderer renderer)
+    {
         mRenderer = renderer;
 
         // Does this thread own the OpenGL context?
-        if (!Thread.currentThread().getName().equals(mThreadOwner)) {
+        if (!Thread.currentThread().getName().equals(mThreadOwner))
+        {
             Log.e(TAG, "setRenderer: This thread does not own the OpenGL context.");
             return;
         }
@@ -105,15 +109,18 @@ public class PixelBuffer {
         mRenderer.onSurfaceChanged(mGL, mWidth, mHeight);
     }
 
-    public Bitmap getBitmap() {
+    public Bitmap getBitmap()
+    {
         // Do we have a renderer?
-        if (mRenderer == null) {
+        if (mRenderer == null)
+        {
             Log.e(TAG, "getBitmap: Renderer was not set.");
             return null;
         }
 
         // Does this thread own the OpenGL context?
-        if (!Thread.currentThread().getName().equals(mThreadOwner)) {
+        if (!Thread.currentThread().getName().equals(mThreadOwner))
+        {
             Log.e(TAG, "getBitmap: This thread does not own the OpenGL context.");
             return null;
         }
@@ -126,7 +133,8 @@ public class PixelBuffer {
         return mBitmap;
     }
 
-    public void destroy() {
+    public void destroy()
+    {
         mRenderer.onDrawFrame(mGL);
         mRenderer.onDrawFrame(mGL);
         mEGL.eglMakeCurrent(mEGLDisplay, EGL10.EGL_NO_SURFACE,
@@ -137,8 +145,9 @@ public class PixelBuffer {
         mEGL.eglTerminate(mEGLDisplay);
     }
 
-    private EGLConfig chooseConfig() {
-        int[] attribList = new int[] {
+    private EGLConfig chooseConfig()
+    {
+        int[] attribList = new int[]{
                 EGL_DEPTH_SIZE, 0,
                 EGL_STENCIL_SIZE, 0,
                 EGL_RED_SIZE, 8,
@@ -157,17 +166,20 @@ public class PixelBuffer {
         mEGLConfigs = new EGLConfig[configSize];
         mEGL.eglChooseConfig(mEGLDisplay, attribList, mEGLConfigs, configSize, numConfig);
 
-        if (LIST_CONFIGS) {
+        if (LIST_CONFIGS)
+        {
             listConfig();
         }
 
         return mEGLConfigs[0]; // Best match is probably the first configuration
     }
 
-    private void listConfig() {
+    private void listConfig()
+    {
         Log.i(TAG, "Config List {");
 
-        for (EGLConfig config : mEGLConfigs) {
+        for (EGLConfig config : mEGLConfigs)
+        {
             int d, s, r, g, b, a;
 
             // Expand on this logic to dump other attributes
@@ -184,13 +196,15 @@ public class PixelBuffer {
         Log.i(TAG, "}");
     }
 
-    private int getConfigAttrib(final EGLConfig config, final int attribute) {
+    private int getConfigAttrib(final EGLConfig config, final int attribute)
+    {
         int[] value = new int[1];
         return mEGL.eglGetConfigAttrib(mEGLDisplay, config,
                 attribute, value) ? value[0] : 0;
     }
 
-    private void convertToBitmap() {
+    private void convertToBitmap()
+    {
         int[] iat = new int[mWidth * mHeight];
         IntBuffer ib = IntBuffer.allocate(mWidth * mHeight);
         mGL.glReadPixels(0, 0, mWidth, mHeight, GL_RGBA, GL_UNSIGNED_BYTE, ib);
@@ -198,12 +212,14 @@ public class PixelBuffer {
 
         // Convert upside down mirror-reversed image to right-side up normal
         // image.
-        for (int i = 0; i < mHeight; i++) {
-            for (int j = 0; j < mWidth; j++) {
+        for (int i = 0; i < mHeight; i++)
+        {
+            for (int j = 0; j < mWidth; j++)
+            {
                 iat[(mHeight - i - 1) * mWidth + j] = ia[i * mWidth + j];
             }
         }
-        
+
 
         mBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
         mBitmap.copyPixelsFromBuffer(IntBuffer.wrap(iat));

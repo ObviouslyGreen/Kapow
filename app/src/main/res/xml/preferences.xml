@@ -1,9 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference
-        android:key="pref_sync"
-        android:title="@string/advanced_mode"
-        android:summary="@string/advanced_mode_summ"
-        android:defaultValue="false"/>
+
+    <PreferenceScreen
+        android:key="ms_settings"
+        android:title="@string/ms_settings">
+        <EditTextPreference
+            android:defaultValue="5"
+            android:key="ms_spatial_res"
+            android:title="@string/ms_spatial_res"
+            android:numeric="decimal"/>
+        <EditTextPreference
+            android:defaultValue="10"
+            android:key="ms_color_res"
+            android:title="@string/ms_color_res"
+            android:numeric="decimal"/>
+        <EditTextPreference
+            android:defaultValue="3"
+            android:key="ms_max_level"
+            android:title="@string/ms_max_level"
+            android:numeric="integer"/>
+    </PreferenceScreen>
+
+    <PreferenceScreen
+        android:key="bilateral_settings"
+        android:title="@string/bilateral_settings">
+        <EditTextPreference
+            android:defaultValue="7"
+            android:key="bilateral_diameter"
+            android:title="@string/bilateral_diameter"
+            android:numeric="integer"/>
+        <EditTextPreference
+            android:defaultValue="150"
+            android:key="bilateral_color_sigma"
+            android:title="@string/bilateral_color"
+            android:numeric="decimal"/>
+        <EditTextPreference
+            android:defaultValue="150"
+            android:key="bilateral_space_sigma"
+            android:title="@string/bilateral_space"
+            android:numeric="decimal"/>
+    </PreferenceScreen>
 
 </PreferenceScreen>

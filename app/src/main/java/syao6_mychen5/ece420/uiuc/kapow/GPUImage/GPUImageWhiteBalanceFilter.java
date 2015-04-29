@@ -16,17 +16,18 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
+
+;
 
 /**
  * Adjusts the white balance of incoming image. <br>
  * <br>
- * temperature: 
+ * temperature:
  * tint:
  */
-public class GPUImageWhiteBalanceFilter extends GPUImageFilter {
+public class GPUImageWhiteBalanceFilter extends GPUImageFilter
+{
     public static final String WHITE_BALANCE_FRAGMENT_SHADER = "" +
             "uniform sampler2D inputImageTexture;\n" +
             "varying highp vec2 textureCoordinate;\n" +
@@ -60,18 +61,21 @@ public class GPUImageWhiteBalanceFilter extends GPUImageFilter {
     private int mTintLocation;
     private float mTint;
 
-    public GPUImageWhiteBalanceFilter() {
+    public GPUImageWhiteBalanceFilter()
+    {
         this(5000.0f, 0.0f);
     }
-    
-    public GPUImageWhiteBalanceFilter(final float temperature, final float tint) {
+
+    public GPUImageWhiteBalanceFilter(final float temperature, final float tint)
+    {
         super(NO_FILTER_VERTEX_SHADER, WHITE_BALANCE_FRAGMENT_SHADER);
         mTemperature = temperature;
         mTint = tint;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mTemperatureLocation = GLES20.glGetUniformLocation(getProgram(), "temperature");
         mTintLocation = GLES20.glGetUniformLocation(getProgram(), "tint");
@@ -81,13 +85,15 @@ public class GPUImageWhiteBalanceFilter extends GPUImageFilter {
     }
 
 
-    public void setTemperature(final float temperature) {
+    public void setTemperature(final float temperature)
+    {
         mTemperature = temperature;
-        setFloat(mTemperatureLocation, mTemperature < 5000 ? (float)(0.0004 * (mTemperature-5000.0)) : (float)(0.00006 * (mTemperature-5000.0)));
+        setFloat(mTemperatureLocation, mTemperature < 5000 ? (float) (0.0004 * (mTemperature - 5000.0)) : (float) (0.00006 * (mTemperature - 5000.0)));
     }
-    
-    public void setTint(final float tint) {
+
+    public void setTint(final float tint)
+    {
         mTint = tint;
-        setFloat(mTintLocation, (float)(mTint/100.0));
+        setFloat(mTintLocation, (float) (mTint / 100.0));
     }
 }

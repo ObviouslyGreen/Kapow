@@ -16,16 +16,17 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
+
+;
 
 /**
  * Adjusts the shadows and highlights of an image
  * shadows: Increase to lighten shadows, from 0.0 to 1.0, with 0.0 as the default.
  * highlights: Decrease to darken highlights, from 0.0 to 1.0, with 1.0 as the default.
  */
-public class GPUImageHighlightShadowFilter extends GPUImageFilter {
+public class GPUImageHighlightShadowFilter extends GPUImageFilter
+{
     public static final String HIGHLIGHT_SHADOW_FRAGMENT_SHADER = "" +
             " uniform sampler2D inputImageTexture;\n" +
             " varying highp vec2 textureCoordinate;\n" +
@@ -52,36 +53,42 @@ public class GPUImageHighlightShadowFilter extends GPUImageFilter {
     private int mHighlightsLocation;
     private float mHighlights;
 
-    public GPUImageHighlightShadowFilter() {
+    public GPUImageHighlightShadowFilter()
+    {
         this(0.0f, 1.0f);
     }
 
-    public GPUImageHighlightShadowFilter(final float shadows, final float highlights) {
+    public GPUImageHighlightShadowFilter(final float shadows, final float highlights)
+    {
         super(NO_FILTER_VERTEX_SHADER, HIGHLIGHT_SHADOW_FRAGMENT_SHADER);
         mHighlights = highlights;
         mShadows = shadows;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mHighlightsLocation = GLES20.glGetUniformLocation(getProgram(), "highlights");
         mShadowsLocation = GLES20.glGetUniformLocation(getProgram(), "shadows");
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setHighlights(mHighlights);
         setShadows(mShadows);
     }
 
-    public void setHighlights(final float highlights) {
+    public void setHighlights(final float highlights)
+    {
         mHighlights = highlights;
         setFloat(mHighlightsLocation, mHighlights);
     }
-    
-    public void setShadows(final float shadows) {
+
+    public void setShadows(final float shadows)
+    {
         mShadows = shadows;
         setFloat(mShadowsLocation, mShadows);
     }

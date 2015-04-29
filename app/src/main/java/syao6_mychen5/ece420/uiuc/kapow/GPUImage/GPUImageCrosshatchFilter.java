@@ -16,15 +16,16 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
+
+;
 
 /**
  * crossHatchSpacing: The fractional width of the image to use as the spacing for the crosshatch. The default is 0.03.
  * lineWidth: A relative width for the crosshatch lines. The default is 0.003.
  */
-public class GPUImageCrosshatchFilter extends GPUImageFilter {
+public class GPUImageCrosshatchFilter extends GPUImageFilter
+{
     public static final String CROSSHATCH_FRAGMENT_SHADER = "" +
             "varying highp vec2 textureCoordinate;\n" +
             "uniform sampler2D inputImageTexture;\n" +
@@ -74,25 +75,29 @@ public class GPUImageCrosshatchFilter extends GPUImageFilter {
     /**
      * Using default values of crossHatchSpacing: 0.03f and lineWidth: 0.003f.
      */
-    public GPUImageCrosshatchFilter() {
+    public GPUImageCrosshatchFilter()
+    {
         this(0.03f, 0.003f);
     }
 
-    public GPUImageCrosshatchFilter(float crossHatchSpacing, float lineWidth) {
+    public GPUImageCrosshatchFilter(float crossHatchSpacing, float lineWidth)
+    {
         super(NO_FILTER_VERTEX_SHADER, CROSSHATCH_FRAGMENT_SHADER);
         mCrossHatchSpacing = crossHatchSpacing;
         mLineWidth = lineWidth;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mCrossHatchSpacingLocation = GLES20.glGetUniformLocation(getProgram(), "crossHatchSpacing");
         mLineWidthLocation = GLES20.glGetUniformLocation(getProgram(), "lineWidth");
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setCrossHatchSpacing(mCrossHatchSpacing);
         setLineWidth(mLineWidth);
@@ -103,17 +108,22 @@ public class GPUImageCrosshatchFilter extends GPUImageFilter {
      *
      * @param crossHatchSpacing default 0.03
      */
-    public void setCrossHatchSpacing(final float crossHatchSpacing) {
+    public void setCrossHatchSpacing(final float crossHatchSpacing)
+    {
         float singlePixelSpacing;
-        if (getOutputWidth() != 0) {
+        if (getOutputWidth() != 0)
+        {
             singlePixelSpacing = 1.0f / (float) getOutputWidth();
-        } else {
+        } else
+        {
             singlePixelSpacing = 1.0f / 2048.0f;
         }
 
-        if (crossHatchSpacing < singlePixelSpacing) {
+        if (crossHatchSpacing < singlePixelSpacing)
+        {
             mCrossHatchSpacing = singlePixelSpacing;
-        } else {
+        } else
+        {
             mCrossHatchSpacing = crossHatchSpacing;
         }
 
@@ -125,7 +135,8 @@ public class GPUImageCrosshatchFilter extends GPUImageFilter {
      *
      * @param lineWidth default 0.003
      */
-    public void setLineWidth(final float lineWidth) {
+    public void setLineWidth(final float lineWidth)
+    {
         mLineWidth = lineWidth;
         setFloat(mLineWidthLocation, mLineWidth);
     }

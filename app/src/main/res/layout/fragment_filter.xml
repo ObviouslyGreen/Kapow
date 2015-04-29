@@ -7,18 +7,29 @@
     <!-- TODO: Update blank fragment layout -->
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="144dp"
+        android:layout_height="48dp"
         android:text="File Input"
         android:id="@+id/file_input_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="31dp"/>
+        android:layout_marginBottom="16dp"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/display_image"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"/>
+
+    <Spinner
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/filter_spinner"
+        android:spinnerMode="dropdown"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
 </RelativeLayout>

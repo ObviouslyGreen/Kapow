@@ -16,24 +16,28 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
 
-public class GPUImageTwoPassTextureSamplingFilter extends GPUImageTwoPassFilter {
+;
+
+public class GPUImageTwoPassTextureSamplingFilter extends GPUImageTwoPassFilter
+{
     public GPUImageTwoPassTextureSamplingFilter(String firstVertexShader, String firstFragmentShader,
-                                                String secondVertexShader, String secondFragmentShader) {
+                                                String secondVertexShader, String secondFragmentShader)
+    {
         super(firstVertexShader, firstFragmentShader,
                 secondVertexShader, secondFragmentShader);
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         initTexelOffsets();
     }
 
-    protected void initTexelOffsets() {
+    protected void initTexelOffsets()
+    {
         float ratio = getHorizontalTexelOffsetRatio();
         GPUImageFilter filter = mFilters.get(0);
         int texelWidthOffsetLocation = GLES20.glGetUniformLocation(filter.getProgram(), "texelWidthOffset");
@@ -50,16 +54,19 @@ public class GPUImageTwoPassTextureSamplingFilter extends GPUImageTwoPassFilter 
     }
 
     @Override
-    public void onOutputSizeChanged(int width, int height) {
+    public void onOutputSizeChanged(int width, int height)
+    {
         super.onOutputSizeChanged(width, height);
         initTexelOffsets();
     }
 
-    public float getVerticalTexelOffsetRatio() {
+    public float getVerticalTexelOffsetRatio()
+    {
         return 1f;
     }
 
-    public float getHorizontalTexelOffsetRatio() {
+    public float getHorizontalTexelOffsetRatio()
+    {
         return 1f;
     }
 }

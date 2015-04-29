@@ -16,15 +16,16 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
+
+;
 
 /**
  * Adjusts the alpha channel of the incoming image
  * opacity: The value to multiply the incoming alpha channel for each pixel by (0.0 - 1.0, with 1.0 as the default)
-*/
-public class GPUImageOpacityFilter extends GPUImageFilter {
+ */
+public class GPUImageOpacityFilter extends GPUImageFilter
+{
     public static final String OPACITY_FRAGMENT_SHADER = "" +
             "  varying highp vec2 textureCoordinate;\n" +
             "  \n" +
@@ -41,28 +42,33 @@ public class GPUImageOpacityFilter extends GPUImageFilter {
     private int mOpacityLocation;
     private float mOpacity;
 
-    public GPUImageOpacityFilter() {
+    public GPUImageOpacityFilter()
+    {
         this(1.0f);
     }
 
-    public GPUImageOpacityFilter(final float opacity) {
+    public GPUImageOpacityFilter(final float opacity)
+    {
         super(NO_FILTER_VERTEX_SHADER, OPACITY_FRAGMENT_SHADER);
         mOpacity = opacity;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mOpacityLocation = GLES20.glGetUniformLocation(getProgram(), "opacity");
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setOpacity(mOpacity);
     }
 
-    public void setOpacity(final float opacity) {
+    public void setOpacity(final float opacity)
+    {
         mOpacity = opacity;
         setFloat(mOpacityLocation, mOpacity);
     }

@@ -17,7 +17,8 @@
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 
-public class GPUImageCGAColorspaceFilter extends GPUImageFilter {
+public class GPUImageCGAColorspaceFilter extends GPUImageFilter
+{
     public static final String CGACOLORSPACE_FRAGMENT_SHADER = "" +
             "varying highp vec2 textureCoordinate;\n" +
             "\n" +
@@ -62,7 +63,8 @@ public class GPUImageCGAColorspaceFilter extends GPUImageFilter {
             "gl_FragColor = finalColor;\n" +
             "}\n";
 
-    public GPUImageCGAColorspaceFilter() {
+        public GPUImageCGAColorspaceFilter()
+        {
         super(NO_FILTER_VERTEX_SHADER, CGACOLORSPACE_FRAGMENT_SHADER);
     }
 }

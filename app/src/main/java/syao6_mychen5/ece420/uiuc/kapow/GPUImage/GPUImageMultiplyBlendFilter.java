@@ -18,7 +18,8 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 ;
 
-public class GPUImageMultiplyBlendFilter extends GPUImageTwoInputFilter {
+public class GPUImageMultiplyBlendFilter extends GPUImageTwoInputFilter
+{
     public static final String MULTIPLY_BLEND_FRAGMENT_SHADER = "varying highp vec2 textureCoordinate;\n" +
             " varying highp vec2 textureCoordinate2;\n" +
             "\n" +
@@ -33,7 +34,8 @@ public class GPUImageMultiplyBlendFilter extends GPUImageTwoInputFilter {
             "     gl_FragColor = overlayer * base + overlayer * (1.0 - base.a) + base * (1.0 - overlayer.a);\n" +
             " }";
 
-    public GPUImageMultiplyBlendFilter() {
+    public GPUImageMultiplyBlendFilter()
+    {
         super(MULTIPLY_BLEND_FRAGMENT_SHADER);
     }
 }

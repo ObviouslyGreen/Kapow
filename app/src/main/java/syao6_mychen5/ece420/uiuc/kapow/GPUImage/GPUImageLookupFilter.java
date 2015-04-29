@@ -18,7 +18,8 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 ;
 
-public class GPUImageLookupFilter extends GPUImageTwoInputFilter {
+public class GPUImageLookupFilter extends GPUImageTwoInputFilter
+{
 
     public static final String LOOKUP_FRAGMENT_SHADER = "varying highp vec2 textureCoordinate;\n" +
             " varying highp vec2 textureCoordinate2; // TODO: This is not used\n" +
@@ -56,7 +57,8 @@ public class GPUImageLookupFilter extends GPUImageTwoInputFilter {
             " }";
 
 
-    public GPUImageLookupFilter() {
+        public GPUImageLookupFilter()
+        {
         super(LOOKUP_FRAGMENT_SHADER);
     }
 }

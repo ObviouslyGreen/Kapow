@@ -16,16 +16,17 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
+
+;
 
 /**
  * Converts the image to a single-color version, based on the luminance of each pixel
  * intensity: The degree to which the specific color replaces the normal image color (0.0 - 1.0, with 1.0 as the default)
  * color: The color to use as the basis for the effect, with (0.6, 0.45, 0.3, 1.0) as the default.
  */
-public class GPUImageMonochromeFilter extends GPUImageFilter {
+public class GPUImageMonochromeFilter extends GPUImageFilter
+{
     public static final String MONOCHROME_FRAGMENT_SHADER = "" +
             " precision lowp float;\n" +
             "  \n" +
@@ -62,42 +63,49 @@ public class GPUImageMonochromeFilter extends GPUImageFilter {
     private int mFilterColorLocation;
     private float[] mColor;
 
-    public GPUImageMonochromeFilter() {
-        this(1.0f, new float[] {0.6f, 0.45f, 0.3f, 1.0f});
+    public GPUImageMonochromeFilter()
+    {
+        this(1.0f, new float[]{0.6f, 0.45f, 0.3f, 1.0f});
     }
 
-    public GPUImageMonochromeFilter(final float intensity, final float[] color) {
+    public GPUImageMonochromeFilter(final float intensity, final float[] color)
+    {
         super(NO_FILTER_VERTEX_SHADER, MONOCHROME_FRAGMENT_SHADER);
         mIntensity = intensity;
         mColor = color;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mIntensityLocation = GLES20.glGetUniformLocation(getProgram(), "intensity");
         mFilterColorLocation = GLES20.glGetUniformLocation(getProgram(), "filterColor");
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setIntensity(1.0f);
-        setColor(new float[]{ 0.6f, 0.45f, 0.3f, 1.f });
+        setColor(new float[]{0.6f, 0.45f, 0.3f, 1.f});
     }
 
-    public void setIntensity(final float intensity) {
+    public void setIntensity(final float intensity)
+    {
         mIntensity = intensity;
         setFloat(mIntensityLocation, mIntensity);
     }
-    
-    public void setColor(final float[] color) {
+
+    public void setColor(final float[] color)
+    {
         mColor = color;
         setColorRed(mColor[0], mColor[1], mColor[2]);
-        
+
     }
-    
-    public void setColorRed(final float red, final float green, final float blue) {
-        setFloatVec3(mFilterColorLocation, new float[]{ red, green, blue });
+
+    public void setColorRed(final float red, final float green, final float blue)
+    {
+        setFloatVec3(mFilterColorLocation, new float[]{red, green, blue});
     }
 }

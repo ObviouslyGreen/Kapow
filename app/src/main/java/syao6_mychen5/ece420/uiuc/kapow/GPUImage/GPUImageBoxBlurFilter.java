@@ -19,10 +19,11 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 /**
  * A hardware-accelerated 9-hit box blur of an image
- *
+ * <p/>
  * scaling: for the size of the applied blur, default of 1.0
  */
-public class GPUImageBoxBlurFilter extends GPUImageTwoPassTextureSamplingFilter {
+public class GPUImageBoxBlurFilter extends GPUImageTwoPassTextureSamplingFilter
+{
     public static final String VERTEX_SHADER =
             "attribute vec4 position;\n" +
                     "attribute vec2 inputTextureCoordinate;\n" +
@@ -77,12 +78,14 @@ public class GPUImageBoxBlurFilter extends GPUImageTwoPassTextureSamplingFilter 
     /**
      * Construct new BoxBlurFilter with default blur size of 1.0.
      */
-    public GPUImageBoxBlurFilter() {
+    public GPUImageBoxBlurFilter()
+    {
         this(1f);
     }
 
 
-    public GPUImageBoxBlurFilter(float blurSize) {
+    public GPUImageBoxBlurFilter(float blurSize)
+    {
         super(VERTEX_SHADER, FRAGMENT_SHADER, VERTEX_SHADER, FRAGMENT_SHADER);
         this.blurSize = blurSize;
     }
@@ -92,23 +95,28 @@ public class GPUImageBoxBlurFilter extends GPUImageTwoPassTextureSamplingFilter 
      *
      * @param blurSize
      */
-    public void setBlurSize(float blurSize) {
+    public void setBlurSize(float blurSize)
+    {
         this.blurSize = blurSize;
-        runOnDraw(new Runnable() {
+        runOnDraw(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 initTexelOffsets();
             }
         });
     }
 
     @Override
-    public float getVerticalTexelOffsetRatio() {
+    public float getVerticalTexelOffsetRatio()
+    {
         return blurSize;
     }
 
     @Override
-    public float getHorizontalTexelOffsetRatio() {
+    public float getHorizontalTexelOffsetRatio()
+    {
         return blurSize;
     }
 }

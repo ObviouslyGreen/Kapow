@@ -22,7 +22,8 @@ import android.opengl.GLES20;
 /**
  * brightness value ranges from -1.0 to 1.0, with 0.0 as the normal level
  */
-public class GPUImageBrightnessFilter extends GPUImageFilter {
+public class GPUImageBrightnessFilter extends GPUImageFilter
+{
     public static final String BRIGHTNESS_FRAGMENT_SHADER = "" +
             "varying highp vec2 textureCoordinate;\n" +
             " \n" +
@@ -39,28 +40,33 @@ public class GPUImageBrightnessFilter extends GPUImageFilter {
     private int mBrightnessLocation;
     private float mBrightness;
 
-    public GPUImageBrightnessFilter() {
+    public GPUImageBrightnessFilter()
+    {
         this(0.0f);
     }
 
-    public GPUImageBrightnessFilter(final float brightness) {
+    public GPUImageBrightnessFilter(final float brightness)
+    {
         super(NO_FILTER_VERTEX_SHADER, BRIGHTNESS_FRAGMENT_SHADER);
         mBrightness = brightness;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mBrightnessLocation = GLES20.glGetUniformLocation(getProgram(), "brightness");
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setBrightness(mBrightness);
     }
 
-    public void setBrightness(final float brightness) {
+    public void setBrightness(final float brightness)
+    {
         mBrightness = brightness;
         setFloat(mBrightnessLocation, mBrightness);
     }

@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':collage-views'
 include ':openCVLibrary2411'

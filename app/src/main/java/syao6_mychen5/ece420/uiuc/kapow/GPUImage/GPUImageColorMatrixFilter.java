@@ -16,14 +16,15 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
+
+;
 
 /**
  * Applies a ColorMatrix to the image.
  */
-public class GPUImageColorMatrixFilter extends GPUImageFilter {
+public class GPUImageColorMatrixFilter extends GPUImageFilter
+{
     public static final String COLOR_MATRIX_FRAGMENT_SHADER = "" +
             "varying highp vec2 textureCoordinate;\n" +
             "\n" +
@@ -45,8 +46,9 @@ public class GPUImageColorMatrixFilter extends GPUImageFilter {
     private int mColorMatrixLocation;
     private int mIntensityLocation;
 
-    public GPUImageColorMatrixFilter() {
-        this(1.0f, new float[] {
+    public GPUImageColorMatrixFilter()
+    {
+        this(1.0f, new float[]{
                 1.0f, 0.0f, 0.0f, 0.0f,
                 0.0f, 1.0f, 0.0f, 0.0f,
                 0.0f, 0.0f, 1.0f, 0.0f,
@@ -54,32 +56,37 @@ public class GPUImageColorMatrixFilter extends GPUImageFilter {
         });
     }
 
-    public GPUImageColorMatrixFilter(final float intensity, final float[] colorMatrix) {
+    public GPUImageColorMatrixFilter(final float intensity, final float[] colorMatrix)
+    {
         super(NO_FILTER_VERTEX_SHADER, COLOR_MATRIX_FRAGMENT_SHADER);
         mIntensity = intensity;
         mColorMatrix = colorMatrix;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mColorMatrixLocation = GLES20.glGetUniformLocation(getProgram(), "colorMatrix");
         mIntensityLocation = GLES20.glGetUniformLocation(getProgram(), "intensity");
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setIntensity(mIntensity);
         setColorMatrix(mColorMatrix);
     }
 
-    public void setIntensity(final float intensity) {
+    public void setIntensity(final float intensity)
+    {
         mIntensity = intensity;
         setFloat(mIntensityLocation, intensity);
     }
 
-    public void setColorMatrix(final float[] colorMatrix) {
+    public void setColorMatrix(final float[] colorMatrix)
+    {
         mColorMatrix = colorMatrix;
         setUniformMatrix4f(mColorMatrixLocation, colorMatrix);
     }

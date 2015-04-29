@@ -16,13 +16,15 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
+import android.opengl.GLES20;
+
 ;
 
-import android.opengl.GLES20;
 /**
  * Applies a grayscale effect to the image.
  */
-public class GPUImagePixelationFilter extends GPUImageFilter {
+public class GPUImagePixelationFilter extends GPUImageFilter
+{
     public static final String PIXELATION_FRAGMENT_SHADER = "" +
             "precision highp float;\n" +
 
@@ -47,14 +49,16 @@ public class GPUImagePixelationFilter extends GPUImageFilter {
     private int mImageHeightFactorLocation;
     private float mPixel;
     private int mPixelLocation;
-    
-    public GPUImagePixelationFilter() {
+
+    public GPUImagePixelationFilter()
+    {
         super(NO_FILTER_VERTEX_SHADER, PIXELATION_FRAGMENT_SHADER);
         mPixel = 1.0f;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mImageWidthFactorLocation = GLES20.glGetUniformLocation(getProgram(), "imageWidthFactor");
         mImageHeightFactorLocation = GLES20.glGetUniformLocation(getProgram(), "imageHeightFactor");
@@ -63,14 +67,16 @@ public class GPUImagePixelationFilter extends GPUImageFilter {
     }
 
     @Override
-    public void onOutputSizeChanged(final int width, final int height) {
+    public void onOutputSizeChanged(final int width, final int height)
+    {
         super.onOutputSizeChanged(width, height);
         setFloat(mImageWidthFactorLocation, 1.0f / width);
         setFloat(mImageHeightFactorLocation, 1.0f / height);
     }
 
-    public void setPixel(final float pixel) {
-      mPixel = pixel;
-      setFloat(mPixelLocation, mPixel);
+    public void setPixel(final float pixel)
+    {
+        mPixel = pixel;
+        setFloat(mPixelLocation, mPixel);
     }
 }

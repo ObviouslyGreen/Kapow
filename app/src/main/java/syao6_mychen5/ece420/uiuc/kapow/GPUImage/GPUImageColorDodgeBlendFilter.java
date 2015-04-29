@@ -17,7 +17,8 @@
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 
-public class GPUImageColorDodgeBlendFilter extends GPUImageTwoInputFilter {
+public class GPUImageColorDodgeBlendFilter extends GPUImageTwoInputFilter
+{
     public static final String COLOR_DODGE_BLEND_FRAGMENT_SHADER = "precision mediump float;\n" +
             " \n" +
             " varying highp vec2 textureCoordinate;\n" +
@@ -44,7 +45,8 @@ public class GPUImageColorDodgeBlendFilter extends GPUImageTwoInputFilter {
             "     gl_FragColor = vec4(mix(firstBlendColor, secondBlendColor, colorChoice), 1.0);\n" +
             " }";
 
-    public GPUImageColorDodgeBlendFilter() {
+        public GPUImageColorDodgeBlendFilter()
+        {
         super(COLOR_DODGE_BLEND_FRAGMENT_SHADER);
     }
 }

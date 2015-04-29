@@ -2,18 +2,24 @@ package syao6_mychen5.ece420.uiuc.kapow;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.opencv.android.OpenCVLoader;
@@ -24,7 +30,6 @@ import org.opencv.core.TermCriteria;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -33,8 +38,8 @@ import syao6_mychen5.ece420.uiuc.kapow.GPUImage.GPUImage;
 import syao6_mychen5.ece420.uiuc.kapow.GPUImage.GPUImageToonFilter;
 
 import static org.opencv.android.Utils.matToBitmap;
+import static org.opencv.imgproc.Imgproc.bilateralFilter;
 import static org.opencv.imgproc.Imgproc.pyrMeanShiftFiltering;
-
 
 
 /**
@@ -57,6 +62,9 @@ public class FilterFragment extends Fragment
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private String curr_filter;
+    private ProgressDialog progressBar;
 
     static
     {
@@ -122,7 +130,29 @@ public class FilterFragment extends Fragment
                                         }
                                     }
                 );
-        // Inflate the layout for this fragment
+
+        Spinner spinner = (Spinner) v.findViewById(R.id.filter_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(),
+                R.array.filter_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+            {
+                Object item = parent.getItemAtPosition(pos);
+                curr_filter = item.toString();
+            }
+
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+                curr_filter = "";
+            }
+        });
+
         return v;
     }
 
@@ -188,21 +218,58 @@ public class FilterFragment extends Fragment
                 {
                     e.printStackTrace();
                 }
-                Log.w("myApp", "pooooooop111111");
                 Uri filteredUri = null;
                 try
                 {
-                    filteredUri = filter(bitmap);
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+                    progressBar = new ProgressDialog(getActivity());
+                    progressBar.setCancelable(true);
+                    progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    progressBar.show();
+                    if (curr_filter.equals("Mean Shift + Toon Filter"))
+                    {
+                        double sp, sr;
+                        int maxLevel;
+
+                        sp = Double.parseDouble(prefs.getString("ms_spatial_res", "5"));
+                        sr = Double.parseDouble(prefs.getString("ms_color_res", "10"));
+                        maxLevel = Integer.parseInt(prefs.getString("ms_max_level", "3"));
+                        if (sp > 0 && sr > 0 && maxLevel >= 0 && maxLevel <= 8)
+                        {
+                            filteredUri = mean_shift(bitmap, sp, sr, maxLevel);
+                        } else
+                        {
+                            Toast.makeText(MyApplication.getAppContext(), "Invalid arguments", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    } else if (curr_filter.equals("Bilateral Filter"))
+                    {
+                        int d;
+                        double sigmaColor, sigmaSpace;
+
+                        d = Integer.parseInt(prefs.getString("bilateral_diameter", "7"));
+                        sigmaColor = Double.parseDouble(prefs.getString("bilateral_color", "150"));
+                        sigmaSpace = Double.parseDouble(prefs.getString("bilateral_space", "150"));
+                        if (d > 0 && sigmaColor > 0 && sigmaSpace > 0)
+                        {
+                            filteredUri = bilateral(bitmap, d, sigmaColor, sigmaSpace);
+                        } else
+                        {
+                            Toast.makeText(MyApplication.getAppContext(), "Invalid arguments", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
                 } catch (IOException e)
                 {
                     e.printStackTrace();
                 }
+                progressBar.dismiss();
                 displayPhoto(filteredUri);
             }
         }
     }
 
-    public Uri filter(Bitmap bmp) throws IOException
+    public Uri mean_shift(Bitmap bmp, double sp, double sr, int maxLevel) throws IOException
     {
         Mat imgMAT = new Mat(bmp.getHeight(), bmp.getWidth(), CvType.CV_8UC3);
         Mat out = new Mat(bmp.getHeight(), bmp.getWidth(), CvType.CV_8UC3);
@@ -210,45 +277,67 @@ public class FilterFragment extends Fragment
 
         //Make Mats 8-bit 3 Channel
         Mat temp = new Mat();
-        Imgproc.cvtColor(imgMAT,temp,Imgproc.COLOR_BGRA2BGR);
+        Imgproc.cvtColor(imgMAT, temp, Imgproc.COLOR_BGRA2BGR);
         Mat dst = new Mat();
-        Imgproc.cvtColor(temp,dst,Imgproc.COLOR_BGR2Luv);
-
+        Imgproc.cvtColor(temp, dst, Imgproc.COLOR_BGR2Luv);
 
         //bilateralFilter(dst, out, 7, 180, 180);
         TermCriteria termcrit = new TermCriteria(TermCriteria.COUNT + TermCriteria.EPS, 5, 1);
-        pyrMeanShiftFiltering(dst, out, 30, 30, 2, termcrit);
+        pyrMeanShiftFiltering(dst, out, sp, sr, maxLevel, termcrit);
 
-      /*  Scalar zero = Scalar.all(0);
-        Scalar colorDiff = Scalar.all(1);
-        Mat mask = new Mat( out.rows()+2, out.cols()+2, CvType.CV_8UC1, zero);
-        for( int y = 0; y < out.rows(); y++ )
-            {
-            for( int x = 0; x < out.cols(); x++ )
-            {
-                byte buff[] = new byte[(int) (mask.total() * mask.channels())];
-                mask.get(x+1, y+1, buff);
-                if(0 == buff[0])
-                {
-                    Scalar newVal = new Scalar( random()%256, random()%256, random()%256 );
-                    Point pt = new Point(x,y);
-                    Rect test = new Rect();
-                    floodFill( out, mask, pt, newVal, test, colorDiff, colorDiff, 4);
-                }
-            }
-        }*/
-
-        //Mat to Bitmap
-        Mat newout = new Mat(bmp.getHeight(), bmp.getWidth(), CvType.CV_8UC3);;
-        Imgproc.cvtColor(out,newout,Imgproc.COLOR_Luv2BGR);
-        Bitmap bmpoutMS = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), Bitmap.Config.ARGB_8888);
-        matToBitmap(newout, bmpoutMS);
+        Bitmap bmpoutMS = matToBmp(out, bmp.getHeight(), bmp.getWidth());
 
         GPUImage mGPUImage = new GPUImage(MyApplication.getAppContext());
         mGPUImage.setFilter(new GPUImageToonFilter());
         mGPUImage.setImage(bmpoutMS);
         Bitmap bmpout = mGPUImage.getBitmapWithFilterApplied();
 
+        return bmpToUri(bmpout);
+    }
+
+    public Uri bilateral(Bitmap bmp, int d, double sigmaColor, double sigmaSpace) throws IOException
+    {
+        Mat imgMAT = new Mat(bmp.getHeight(), bmp.getWidth(), CvType.CV_8UC3);
+        Mat out = new Mat(bmp.getHeight(), bmp.getWidth(), CvType.CV_8UC3);
+        Utils.bitmapToMat(bmp, imgMAT);
+
+        //Make Mats 8-bit 3 Channel
+        Mat temp = new Mat();
+        Imgproc.cvtColor(imgMAT, temp, Imgproc.COLOR_BGRA2BGR);
+        Mat dst = new Mat();
+        Imgproc.cvtColor(temp, dst, Imgproc.COLOR_BGR2Luv);
+
+        bilateralFilter(dst, out, d, sigmaColor, sigmaSpace);
+
+        Bitmap bmpout = matToBmp(out, bmp.getHeight(), bmp.getWidth());
+
+        return bmpToUri(bmpout);
+    }
+
+
+    public void displayPhoto(Uri uri)
+    {
+        try
+        {
+            ImageView img = (ImageView) getView().findViewById(R.id.display_image);
+            img.setImageURI(uri);
+        } catch (NullPointerException e)
+        {
+            Log.w("Null Image", "this should never happen");
+        }
+    }
+
+    public Bitmap matToBmp(Mat in, int height, int width)
+    {
+        Mat bgrIn = new Mat(height, width, CvType.CV_8UC3);
+        Imgproc.cvtColor(in, bgrIn, Imgproc.COLOR_Luv2BGR);
+        Bitmap res = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        matToBitmap(bgrIn, res);
+        return res;
+    }
+
+    public Uri bmpToUri(Bitmap in)
+    {
         //Bitmap to Uri
         int counter = 0;
         OutputStream fOut = null;
@@ -257,33 +346,33 @@ public class FilterFragment extends Fragment
         File sd = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
         File directory = new File(sd, "Kapow");
-        try {
+        try
+        {
             directory.mkdirs();
-        } catch(Exception e) {}
-        file = new File(sd, "Kapow/"+"output.png");
-        while (file.exists()) {
+        } catch (Exception e)
+        {
+        }
+        file = new File(sd, "Kapow/" + "output.png");
+        while (file.exists())
+        {
             counter++;
             file = new File(sd, "Kapow/" + "output" + "(" + counter + ").png");
         }
-        try{
+        try
+        {
             fOut = new FileOutputStream(file);
-            bmpout.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+            in.compress(Bitmap.CompressFormat.PNG, 100, fOut);
             fOut.flush();
             fOut.close();
             path = MediaStore.Images.Media.insertImage(MyApplication.getAppContext().getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
-        } catch (FileNotFoundException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
             Toast.makeText(MyApplication.getAppContext(), "Save Failed", Toast.LENGTH_SHORT).show();
             return null;
         }
-        return Uri.parse(path);
-    }
 
-    public void displayPhoto(Uri uri)
-    {
-        ImageView img = (ImageView) getView().findViewById(R.id.display_image);
-        img.setImageURI(uri);
+        return Uri.parse(path);
     }
 
 }

@@ -18,7 +18,8 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 ;
 
-public class GPUImageLinearBurnBlendFilter extends GPUImageTwoInputFilter {
+public class GPUImageLinearBurnBlendFilter extends GPUImageTwoInputFilter
+{
     public static final String LINEAR_BURN_BLEND_FRAGMENT_SHADER = "varying highp vec2 textureCoordinate;\n" +
             " varying highp vec2 textureCoordinate2;\n" +
             " \n" +
@@ -33,7 +34,8 @@ public class GPUImageLinearBurnBlendFilter extends GPUImageTwoInputFilter {
             "     gl_FragColor = vec4(clamp(textureColor.rgb + textureColor2.rgb - vec3(1.0), vec3(0.0), vec3(1.0)), textureColor.a);\n" +
             " }";
 
-    public GPUImageLinearBurnBlendFilter() {
+    public GPUImageLinearBurnBlendFilter()
+    {
         super(LINEAR_BURN_BLEND_FRAGMENT_SHADER);
     }
 }

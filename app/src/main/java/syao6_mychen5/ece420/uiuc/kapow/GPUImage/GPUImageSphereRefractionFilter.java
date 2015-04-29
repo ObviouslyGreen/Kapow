@@ -16,12 +16,13 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.graphics.PointF;
 import android.opengl.GLES20;
 
-public class GPUImageSphereRefractionFilter extends GPUImageFilter {
+;
+
+public class GPUImageSphereRefractionFilter extends GPUImageFilter
+{
     public static final String SPHERE_FRAGMENT_SHADER = "" +
             "varying highp vec2 textureCoordinate;\n" +
             "\n" +
@@ -57,11 +58,13 @@ public class GPUImageSphereRefractionFilter extends GPUImageFilter {
     private float mRefractiveIndex;
     private int mRefractiveIndexLocation;
 
-    public GPUImageSphereRefractionFilter() {
+    public GPUImageSphereRefractionFilter()
+    {
         this(new PointF(0.5f, 0.5f), 0.25f, 0.71f);
     }
 
-    public GPUImageSphereRefractionFilter(PointF center, float radius, float refractiveIndex) {
+    public GPUImageSphereRefractionFilter(PointF center, float radius, float refractiveIndex)
+    {
         super(NO_FILTER_VERTEX_SHADER, SPHERE_FRAGMENT_SHADER);
         mCenter = center;
         mRadius = radius;
@@ -69,7 +72,8 @@ public class GPUImageSphereRefractionFilter extends GPUImageFilter {
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mCenterLocation = GLES20.glGetUniformLocation(getProgram(), "center");
         mRadiusLocation = GLES20.glGetUniformLocation(getProgram(), "radius");
@@ -78,7 +82,8 @@ public class GPUImageSphereRefractionFilter extends GPUImageFilter {
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setRadius(mRadius);
         setCenter(mCenter);
@@ -86,13 +91,15 @@ public class GPUImageSphereRefractionFilter extends GPUImageFilter {
     }
 
     @Override
-    public void onOutputSizeChanged(int width, int height) {
+    public void onOutputSizeChanged(int width, int height)
+    {
         mAspectRatio = (float) height / width;
         setAspectRatio(mAspectRatio);
         super.onOutputSizeChanged(width, height);
     }
 
-    private void setAspectRatio(float aspectRatio) {
+    private void setAspectRatio(float aspectRatio)
+    {
         mAspectRatio = aspectRatio;
         setFloat(mAspectRatioLocation, aspectRatio);
     }
@@ -102,7 +109,8 @@ public class GPUImageSphereRefractionFilter extends GPUImageFilter {
      *
      * @param refractiveIndex default 0.71
      */
-    public void setRefractiveIndex(float refractiveIndex) {
+    public void setRefractiveIndex(float refractiveIndex)
+    {
         mRefractiveIndex = refractiveIndex;
         setFloat(mRefractiveIndexLocation, refractiveIndex);
     }
@@ -112,7 +120,8 @@ public class GPUImageSphereRefractionFilter extends GPUImageFilter {
      *
      * @param center default (0.5, 0.5)
      */
-    public void setCenter(PointF center) {
+    public void setCenter(PointF center)
+    {
         mCenter = center;
         setPoint(mCenterLocation, center);
     }
@@ -122,7 +131,8 @@ public class GPUImageSphereRefractionFilter extends GPUImageFilter {
      *
      * @param radius from 0.0 to 1.0, default 0.25
      */
-    public void setRadius(float radius) {
+    public void setRadius(float radius)
+    {
         mRadius = radius;
         setFloat(mRadiusLocation, radius);
     }

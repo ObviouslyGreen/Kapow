@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="syao6_mychen5.ece420.uiuc.kapow.SettingsFragment">
+             tools:context="syao6_mychen5.ece420.uiuc.kapow.ViewFragment">
 
 
 </FrameLayout>

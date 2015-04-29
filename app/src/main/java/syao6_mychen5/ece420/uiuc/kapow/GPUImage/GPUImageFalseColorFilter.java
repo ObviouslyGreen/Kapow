@@ -16,11 +16,12 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
 
-public class GPUImageFalseColorFilter extends GPUImageFilter {
+;
+
+public class GPUImageFalseColorFilter extends GPUImageFilter
+{
     public static final String FALSECOLOR_FRAGMENT_SHADER = "" +
             "precision lowp float;\n" +
             "\n" +
@@ -46,40 +47,47 @@ public class GPUImageFalseColorFilter extends GPUImageFilter {
     private float[] mSecondColor;
     private int mSecondColorLocation;
 
-    public GPUImageFalseColorFilter() {
+    public GPUImageFalseColorFilter()
+    {
         this(0f, 0f, 0.5f, 1f, 0f, 0f);
     }
 
-    public GPUImageFalseColorFilter(float firstRed, float firstGreen, float firstBlue, float secondRed, float secondGreen, float secondBlue) {
+    public GPUImageFalseColorFilter(float firstRed, float firstGreen, float firstBlue, float secondRed, float secondGreen, float secondBlue)
+    {
         this(new float[]{firstRed, firstGreen, firstBlue}, new float[]{secondRed, secondGreen, secondBlue});
     }
 
-    public GPUImageFalseColorFilter(float[] firstColor, float[] secondColor) {
+    public GPUImageFalseColorFilter(float[] firstColor, float[] secondColor)
+    {
         super(NO_FILTER_VERTEX_SHADER, FALSECOLOR_FRAGMENT_SHADER);
         mFirstColor = firstColor;
         mSecondColor = secondColor;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mFirstColorLocation = GLES20.glGetUniformLocation(getProgram(), "firstColor");
         mSecondColorLocation = GLES20.glGetUniformLocation(getProgram(), "secondColor");
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setFirstColor(mFirstColor);
         setSecondColor(mSecondColor);
     }
 
-    public void setFirstColor(final float[] firstColor) {
+    public void setFirstColor(final float[] firstColor)
+    {
         mFirstColor = firstColor;
         setFloatVec3(mFirstColorLocation, firstColor);
     }
 
-    public void setSecondColor(final float[] secondColor) {
+    public void setSecondColor(final float[] secondColor)
+    {
         mSecondColor = secondColor;
         setFloatVec3(mSecondColorLocation, secondColor);
     }

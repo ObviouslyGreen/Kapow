@@ -16,54 +16,60 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
+
+;
 
 /**
  * Changes the contrast of the image.<br>
  * <br>
  * contrast value ranges from 0.0 to 4.0, with 1.0 as the normal level
  */
-public class GPUImageContrastFilter extends GPUImageFilter {
+public class GPUImageContrastFilter extends GPUImageFilter
+{
     public static final String CONTRAST_FRAGMENT_SHADER = "" +
-            "varying highp vec2 textureCoordinate;\n" + 
-            " \n" + 
-            " uniform sampler2D inputImageTexture;\n" + 
-            " uniform lowp float contrast;\n" + 
-            " \n" + 
-            " void main()\n" + 
-            " {\n" + 
-            "     lowp vec4 textureColor = texture2D(inputImageTexture, textureCoordinate);\n" + 
-            "     \n" + 
-            "     gl_FragColor = vec4(((textureColor.rgb - vec3(0.5)) * contrast + vec3(0.5)), textureColor.w);\n" + 
+            "varying highp vec2 textureCoordinate;\n" +
+            " \n" +
+            " uniform sampler2D inputImageTexture;\n" +
+            " uniform lowp float contrast;\n" +
+            " \n" +
+            " void main()\n" +
+            " {\n" +
+            "     lowp vec4 textureColor = texture2D(inputImageTexture, textureCoordinate);\n" +
+            "     \n" +
+            "     gl_FragColor = vec4(((textureColor.rgb - vec3(0.5)) * contrast + vec3(0.5)), textureColor.w);\n" +
             " }";
 
     private int mContrastLocation;
     private float mContrast;
 
-    public GPUImageContrastFilter() {
+    public GPUImageContrastFilter()
+    {
         this(1.2f);
     }
-    
-    public GPUImageContrastFilter(float contrast) {
+
+    public GPUImageContrastFilter(float contrast)
+    {
         super(NO_FILTER_VERTEX_SHADER, CONTRAST_FRAGMENT_SHADER);
         mContrast = contrast;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mContrastLocation = GLES20.glGetUniformLocation(getProgram(), "contrast");
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setContrast(mContrast);
     }
 
-    public void setContrast(final float contrast) {
+    public void setContrast(final float contrast)
+    {
         mContrast = contrast;
         setFloat(mContrastLocation, mContrast);
     }
