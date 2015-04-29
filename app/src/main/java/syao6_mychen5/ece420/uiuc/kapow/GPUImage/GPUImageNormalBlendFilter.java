@@ -20,19 +20,20 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 /**
  * This equation is a simplification of the general blending equation. It assumes the destination color is opaque, and therefore drops the destination color's alpha term.
- *
+ * <p/>
  * D = C1 * C1a + C2 * C2a * (1 - C1a)
  * where D is the resultant color, C1 is the color of the first element, C1a is the alpha of the first element, C2 is the second element color, C2a is the alpha of the second element. The destination alpha is calculated with:
- *
+ * <p/>
  * Da = C1a + C2a * (1 - C1a)
  * The resultant color is premultiplied with the alpha. To restore the color to the unmultiplied values, just divide by Da, the resultant alpha.
- *
+ * <p/>
  * http://stackoverflow.com/questions/1724946/blend-mode-on-a-transparent-and-semi-transparent-background
- *
+ * <p/>
  * For some reason Photoshop behaves
  * D = C1 + C2 * C2a * (1 - C1a)
  */
-public class GPUImageNormalBlendFilter extends GPUImageTwoInputFilter {
+public class GPUImageNormalBlendFilter extends GPUImageTwoInputFilter
+{
     public static final String NORMAL_BLEND_FRAGMENT_SHADER = "varying highp vec2 textureCoordinate;\n" +
             " varying highp vec2 textureCoordinate2;\n" +
             " \n" +
@@ -57,7 +58,8 @@ public class GPUImageNormalBlendFilter extends GPUImageTwoInputFilter {
             "     gl_FragColor = outputColor;\n" +
             " }";
 
-    public GPUImageNormalBlendFilter() {
+        public GPUImageNormalBlendFilter()
+        {
         super(NORMAL_BLEND_FRAGMENT_SHADER);
     }
 }

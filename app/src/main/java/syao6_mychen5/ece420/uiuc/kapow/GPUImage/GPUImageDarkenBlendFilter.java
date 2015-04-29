@@ -18,7 +18,8 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 ;
 
-public class GPUImageDarkenBlendFilter extends GPUImageTwoInputFilter {
+public class GPUImageDarkenBlendFilter extends GPUImageTwoInputFilter
+{
     public static final String DARKEN_BLEND_FRAGMENT_SHADER = "varying highp vec2 textureCoordinate;\n" +
             " varying highp vec2 textureCoordinate2;\n" +
             "\n" +
@@ -33,7 +34,8 @@ public class GPUImageDarkenBlendFilter extends GPUImageTwoInputFilter {
             "    gl_FragColor = vec4(min(overlayer.rgb * base.a, base.rgb * overlayer.a) + overlayer.rgb * (1.0 - base.a) + base.rgb * (1.0 - overlayer.a), 1.0);\n" +
             " }";
 
-    public GPUImageDarkenBlendFilter() {
+    public GPUImageDarkenBlendFilter()
+    {
         super(DARKEN_BLEND_FRAGMENT_SHADER);
     }
 }

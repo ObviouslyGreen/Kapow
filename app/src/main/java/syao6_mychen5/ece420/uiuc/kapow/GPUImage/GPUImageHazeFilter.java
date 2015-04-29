@@ -16,16 +16,17 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
+
+;
 
 /**
  * The haze filter can be used to add or remove haze.
- *
+ * <p/>
  * This is similar to a UV filter.
  */
-public class GPUImageHazeFilter extends GPUImageFilter {
+public class GPUImageHazeFilter extends GPUImageFilter
+{
     public static final String HAZE_FRAGMENT_SHADER = "" +
             "varying highp vec2 textureCoordinate;\n" +
             "\n" +
@@ -53,25 +54,29 @@ public class GPUImageHazeFilter extends GPUImageFilter {
     private float mSlope;
     private int mSlopeLocation;
 
-    public GPUImageHazeFilter() {
+    public GPUImageHazeFilter()
+    {
         this(0.2f, 0.0f);
     }
 
-    public GPUImageHazeFilter(float distance, float slope) {
+    public GPUImageHazeFilter(float distance, float slope)
+    {
         super(NO_FILTER_VERTEX_SHADER, HAZE_FRAGMENT_SHADER);
         mDistance = distance;
         mSlope = slope;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mDistanceLocation = GLES20.glGetUniformLocation(getProgram(), "distance");
         mSlopeLocation = GLES20.glGetUniformLocation(getProgram(), "slope");
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setDistance(mDistance);
         setSlope(mSlope);
@@ -82,7 +87,8 @@ public class GPUImageHazeFilter extends GPUImageFilter {
      *
      * @param distance -0.3 to 0.3 are best, default 0
      */
-    public void setDistance(float distance) {
+    public void setDistance(float distance)
+    {
         mDistance = distance;
         setFloat(mDistanceLocation, distance);
     }
@@ -92,7 +98,8 @@ public class GPUImageHazeFilter extends GPUImageFilter {
      *
      * @param slope -0.3 to 0.3 are best, default 0
      */
-    public void setSlope(float slope) {
+    public void setSlope(float slope)
+    {
         mSlope = slope;
         setFloat(mSlopeLocation, slope);
     }

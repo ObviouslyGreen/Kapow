@@ -19,7 +19,8 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 /**
  * Invert all the colors in the image.
  */
-public class GPUImageColorInvertFilter extends GPUImageFilter {
+public class GPUImageColorInvertFilter extends GPUImageFilter
+{
     public static final String COLOR_INVERT_FRAGMENT_SHADER = "" +
             "varying highp vec2 textureCoordinate;\n" +
             "\n" +
@@ -32,7 +33,8 @@ public class GPUImageColorInvertFilter extends GPUImageFilter {
             "    gl_FragColor = vec4((1.0 - textureColor.rgb), textureColor.w);\n" +
             "}";
 
-    public GPUImageColorInvertFilter() {
+    public GPUImageColorInvertFilter()
+    {
         super(NO_FILTER_VERTEX_SHADER, COLOR_INVERT_FRAGMENT_SHADER);
     }
 }

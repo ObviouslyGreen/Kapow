@@ -16,14 +16,15 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
+
+;
 
 /**
  * gamma value ranges from 0.0 to 3.0, with 1.0 as the normal level
  */
-public class GPUImageGammaFilter extends GPUImageFilter {
+public class GPUImageGammaFilter extends GPUImageFilter
+{
     public static final String GAMMA_FRAGMENT_SHADER = "" +
             "varying highp vec2 textureCoordinate;\n" +
             " \n" +
@@ -40,28 +41,33 @@ public class GPUImageGammaFilter extends GPUImageFilter {
     private int mGammaLocation;
     private float mGamma;
 
-    public GPUImageGammaFilter() {
+    public GPUImageGammaFilter()
+    {
         this(1.2f);
     }
 
-    public GPUImageGammaFilter(final float gamma) {
+    public GPUImageGammaFilter(final float gamma)
+    {
         super(NO_FILTER_VERTEX_SHADER, GAMMA_FRAGMENT_SHADER);
         mGamma = gamma;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mGammaLocation = GLES20.glGetUniformLocation(getProgram(), "gamma");
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setGamma(mGamma);
     }
 
-    public void setGamma(final float gamma) {
+    public void setGamma(final float gamma)
+    {
         mGamma = gamma;
         setFloat(mGammaLocation, mGamma);
     }

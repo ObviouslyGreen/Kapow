@@ -16,11 +16,12 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
 
-public class GPUImageLaplacianFilter extends GPUImage3x3TextureSamplingFilter {
+;
+
+public class GPUImageLaplacianFilter extends GPUImage3x3TextureSamplingFilter
+{
     public static final String LAPLACIAN_FRAGMENT_SHADER = "" +
             "precision highp float;\n" +
             "\n" +
@@ -65,7 +66,8 @@ public class GPUImageLaplacianFilter extends GPUImage3x3TextureSamplingFilter {
     private float[] mConvolutionKernel;
     private int mUniformConvolutionMatrix;
 
-    public GPUImageLaplacianFilter() {
+    public GPUImageLaplacianFilter()
+    {
         this(new float[]{
                 0.5f, 1.0f, 0.5f,
                 1.0f, -6.0f, 1.0f,
@@ -73,19 +75,22 @@ public class GPUImageLaplacianFilter extends GPUImage3x3TextureSamplingFilter {
         });
     }
 
-    private GPUImageLaplacianFilter(final float[] convolutionKernel) {
+    private GPUImageLaplacianFilter(final float[] convolutionKernel)
+    {
         super(LAPLACIAN_FRAGMENT_SHADER);
         mConvolutionKernel = convolutionKernel;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mUniformConvolutionMatrix = GLES20.glGetUniformLocation(getProgram(), "convolutionMatrix");
         setConvolutionKernel(mConvolutionKernel);
     }
 
-    private void setConvolutionKernel(final float[] convolutionKernel) {
+    private void setConvolutionKernel(final float[] convolutionKernel)
+    {
         mConvolutionKernel = convolutionKernel;
         setUniformMatrix3f(mUniformConvolutionMatrix, mConvolutionKernel);
     }

@@ -16,16 +16,17 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
+
+;
 
 /**
  * Reduces the color range of the image. <br>
  * <br>
  * colorLevels: ranges from 1 to 256, with a default of 10
  */
-public class GPUImagePosterizeFilter extends GPUImageFilter {
+public class GPUImagePosterizeFilter extends GPUImageFilter
+{
     public static final String POSTERIZE_FRAGMENT_SHADER = "" +
             "varying highp vec2 textureCoordinate;\n" +
             "\n" +
@@ -42,23 +43,27 @@ public class GPUImagePosterizeFilter extends GPUImageFilter {
     private int mGLUniformColorLevels;
     private int mColorLevels;
 
-    public GPUImagePosterizeFilter() {
+    public GPUImagePosterizeFilter()
+    {
         this(10);
     }
 
-    public GPUImagePosterizeFilter(final int colorLevels) {
+    public GPUImagePosterizeFilter(final int colorLevels)
+    {
         super(GPUImageFilter.NO_FILTER_VERTEX_SHADER, POSTERIZE_FRAGMENT_SHADER);
         mColorLevels = colorLevels;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mGLUniformColorLevels = GLES20.glGetUniformLocation(getProgram(), "colorLevels");
         setColorLevels(mColorLevels);
     }
 
-    public void setColorLevels(final int colorLevels) {
+    public void setColorLevels(final int colorLevels)
+    {
         mColorLevels = colorLevels;
         setFloat(mGLUniformColorLevels, colorLevels);
     }

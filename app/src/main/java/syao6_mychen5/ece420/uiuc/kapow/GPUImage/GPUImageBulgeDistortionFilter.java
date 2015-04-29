@@ -20,7 +20,8 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 import android.graphics.PointF;
 import android.opengl.GLES20;
 
-public class GPUImageBulgeDistortionFilter extends GPUImageFilter {
+public class GPUImageBulgeDistortionFilter extends GPUImageFilter
+{
     public static final String BULGE_FRAGMENT_SHADER = "" +
             "varying highp vec2 textureCoordinate;\n" +
             "\n" +
@@ -59,11 +60,13 @@ public class GPUImageBulgeDistortionFilter extends GPUImageFilter {
     private float mAspectRatio;
     private int mAspectRatioLocation;
 
-    public GPUImageBulgeDistortionFilter() {
+    public GPUImageBulgeDistortionFilter()
+    {
         this(0.25f, 0.5f, new PointF(0.5f, 0.5f));
     }
 
-    public GPUImageBulgeDistortionFilter(float radius, float scale, PointF center) {
+    public GPUImageBulgeDistortionFilter(float radius, float scale, PointF center)
+    {
         super(NO_FILTER_VERTEX_SHADER, BULGE_FRAGMENT_SHADER);
         mRadius = radius;
         mScale = scale;
@@ -71,7 +74,8 @@ public class GPUImageBulgeDistortionFilter extends GPUImageFilter {
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mScaleLocation = GLES20.glGetUniformLocation(getProgram(), "scale");
         mRadiusLocation = GLES20.glGetUniformLocation(getProgram(), "radius");
@@ -80,7 +84,8 @@ public class GPUImageBulgeDistortionFilter extends GPUImageFilter {
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setRadius(mRadius);
         setScale(mScale);
@@ -88,13 +93,15 @@ public class GPUImageBulgeDistortionFilter extends GPUImageFilter {
     }
 
     @Override
-    public void onOutputSizeChanged(int width, int height) {
+    public void onOutputSizeChanged(int width, int height)
+    {
         mAspectRatio = (float) height / width;
         setAspectRatio(mAspectRatio);
         super.onOutputSizeChanged(width, height);
     }
 
-    private void setAspectRatio(float aspectRatio) {
+    private void setAspectRatio(float aspectRatio)
+    {
         mAspectRatio = aspectRatio;
         setFloat(mAspectRatioLocation, aspectRatio);
     }
@@ -104,7 +111,8 @@ public class GPUImageBulgeDistortionFilter extends GPUImageFilter {
      *
      * @param radius from 0.0 to 1.0, default 0.25
      */
-    public void setRadius(float radius) {
+    public void setRadius(float radius)
+    {
         mRadius = radius;
         setFloat(mRadiusLocation, radius);
     }
@@ -114,7 +122,8 @@ public class GPUImageBulgeDistortionFilter extends GPUImageFilter {
      *
      * @param scale from -1.0 to 1.0, default 0.5
      */
-    public void setScale(float scale) {
+    public void setScale(float scale)
+    {
         mScale = scale;
         setFloat(mScaleLocation, scale);
     }
@@ -124,7 +133,8 @@ public class GPUImageBulgeDistortionFilter extends GPUImageFilter {
      *
      * @param center default (0.5, 0.5)
      */
-    public void setCenter(PointF center) {
+    public void setCenter(PointF center)
+    {
         mCenter = center;
         setPoint(mCenterLocation, center);
     }

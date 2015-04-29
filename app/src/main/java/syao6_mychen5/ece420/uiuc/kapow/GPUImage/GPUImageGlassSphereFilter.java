@@ -16,12 +16,13 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.graphics.PointF;
 import android.opengl.GLES20;
 
-public class GPUImageGlassSphereFilter extends GPUImageFilter {
+;
+
+public class GPUImageGlassSphereFilter extends GPUImageFilter
+{
     public static final String SPHERE_FRAGMENT_SHADER = "" +
             "varying highp vec2 textureCoordinate;\n" +
             "\n" +
@@ -72,11 +73,13 @@ public class GPUImageGlassSphereFilter extends GPUImageFilter {
     private float mRefractiveIndex;
     private int mRefractiveIndexLocation;
 
-    public GPUImageGlassSphereFilter() {
+    public GPUImageGlassSphereFilter()
+    {
         this(new PointF(0.5f, 0.5f), 0.25f, 0.71f);
     }
 
-    public GPUImageGlassSphereFilter(PointF center, float radius, float refractiveIndex) {
+    public GPUImageGlassSphereFilter(PointF center, float radius, float refractiveIndex)
+    {
         super(NO_FILTER_VERTEX_SHADER, SPHERE_FRAGMENT_SHADER);
         mCenter = center;
         mRadius = radius;
@@ -84,7 +87,8 @@ public class GPUImageGlassSphereFilter extends GPUImageFilter {
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mCenterLocation = GLES20.glGetUniformLocation(getProgram(), "center");
         mRadiusLocation = GLES20.glGetUniformLocation(getProgram(), "radius");
@@ -93,7 +97,8 @@ public class GPUImageGlassSphereFilter extends GPUImageFilter {
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setRadius(mRadius);
         setCenter(mCenter);
@@ -101,28 +106,33 @@ public class GPUImageGlassSphereFilter extends GPUImageFilter {
     }
 
     @Override
-    public void onOutputSizeChanged(int width, int height) {
+    public void onOutputSizeChanged(int width, int height)
+    {
         mAspectRatio = (float) height / width;
         setAspectRatio(mAspectRatio);
         super.onOutputSizeChanged(width, height);
     }
 
-    private void setAspectRatio(float aspectRatio) {
+    private void setAspectRatio(float aspectRatio)
+    {
         mAspectRatio = aspectRatio;
         setFloat(mAspectRatioLocation, aspectRatio);
     }
 
-    public void setRefractiveIndex(float refractiveIndex) {
+    public void setRefractiveIndex(float refractiveIndex)
+    {
         mRefractiveIndex = refractiveIndex;
         setFloat(mRefractiveIndexLocation, refractiveIndex);
     }
 
-    public void setCenter(PointF center) {
+    public void setCenter(PointF center)
+    {
         mCenter = center;
         setPoint(mCenterLocation, center);
     }
 
-    public void setRadius(float radius) {
+    public void setRadius(float radius)
+    {
         mRadius = radius;
         setFloat(mRadiusLocation, radius);
     }

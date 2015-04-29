@@ -16,14 +16,15 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
+
+;
 
 /**
  * saturation: The degree of saturation or desaturation to apply to the image (0.0 - 2.0, with 1.0 as the default)
  */
-public class GPUImageSaturationFilter extends GPUImageFilter {
+public class GPUImageSaturationFilter extends GPUImageFilter
+{
     public static final String SATURATION_FRAGMENT_SHADER = "" +
             " varying highp vec2 textureCoordinate;\n" +
             " \n" +
@@ -46,28 +47,33 @@ public class GPUImageSaturationFilter extends GPUImageFilter {
     private int mSaturationLocation;
     private float mSaturation;
 
-    public GPUImageSaturationFilter() {
+    public GPUImageSaturationFilter()
+    {
         this(1.0f);
     }
 
-    public GPUImageSaturationFilter(final float saturation) {
+    public GPUImageSaturationFilter(final float saturation)
+    {
         super(NO_FILTER_VERTEX_SHADER, SATURATION_FRAGMENT_SHADER);
         mSaturation = saturation;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mSaturationLocation = GLES20.glGetUniformLocation(getProgram(), "saturation");
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setSaturation(mSaturation);
     }
 
-    public void setSaturation(final float saturation) {
+    public void setSaturation(final float saturation)
+    {
         mSaturation = saturation;
         setFloat(mSaturationLocation, mSaturation);
     }

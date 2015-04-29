@@ -18,7 +18,8 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 ;
 
-public class GPUImageLightenBlendFilter extends GPUImageTwoInputFilter {
+public class GPUImageLightenBlendFilter extends GPUImageTwoInputFilter
+{
     public static final String LIGHTEN_BLEND_FRAGMENT_SHADER = "varying highp vec2 textureCoordinate;\n" +
             " varying highp vec2 textureCoordinate2;\n" +
             "\n" +
@@ -33,7 +34,8 @@ public class GPUImageLightenBlendFilter extends GPUImageTwoInputFilter {
             "    gl_FragColor = max(textureColor, textureColor2);\n" +
             " }";
 
-    public GPUImageLightenBlendFilter() {
+    public GPUImageLightenBlendFilter()
+    {
         super(LIGHTEN_BLEND_FRAGMENT_SHADER);
     }
 }

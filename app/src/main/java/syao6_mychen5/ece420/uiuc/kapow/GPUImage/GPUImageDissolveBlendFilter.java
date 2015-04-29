@@ -18,12 +18,11 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 ;
 
-import android.opengl.GLES20;
-
 /**
  * Mix ranges from 0.0 (only image 1) to 1.0 (only image 2), with 0.5 (half of either) as the normal level
  */
-public class GPUImageDissolveBlendFilter extends GPUImageMixBlendFilter{
+public class GPUImageDissolveBlendFilter extends GPUImageMixBlendFilter
+{
     public static final String DISSOLVE_BLEND_FRAGMENT_SHADER = "varying highp vec2 textureCoordinate;\n" +
             " varying highp vec2 textureCoordinate2;\n" +
             "\n" +
@@ -39,11 +38,13 @@ public class GPUImageDissolveBlendFilter extends GPUImageMixBlendFilter{
             "    gl_FragColor = mix(textureColor, textureColor2, mixturePercent);\n" +
             " }";
 
-    public GPUImageDissolveBlendFilter() {
+    public GPUImageDissolveBlendFilter()
+    {
         super(DISSOLVE_BLEND_FRAGMENT_SHADER);
     }
 
-    public GPUImageDissolveBlendFilter(float mix) {
+    public GPUImageDissolveBlendFilter(float mix)
+    {
         super(DISSOLVE_BLEND_FRAGMENT_SHADER, mix);
     }
 }

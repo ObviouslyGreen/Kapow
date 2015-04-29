@@ -22,7 +22,8 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
  * A more generalized 9x9 Gaussian blur filter
  * blurSize value ranging from 0.0 on up, with a default of 1.0
  */
-public class GPUImageGaussianBlurFilter extends GPUImageTwoPassTextureSamplingFilter {
+public class GPUImageGaussianBlurFilter extends GPUImageTwoPassTextureSamplingFilter
+{
     public static final String VERTEX_SHADER =
             "attribute vec4 position;\n" +
                     "attribute vec4 inputTextureCoordinate;\n" +
@@ -82,22 +83,26 @@ public class GPUImageGaussianBlurFilter extends GPUImageTwoPassTextureSamplingFi
 
     protected float mBlurSize = 1f;
 
-    public GPUImageGaussianBlurFilter() {
+    public GPUImageGaussianBlurFilter()
+    {
         this(1f);
     }
 
-    public GPUImageGaussianBlurFilter(float blurSize) {
+    public GPUImageGaussianBlurFilter(float blurSize)
+    {
         super(VERTEX_SHADER, FRAGMENT_SHADER, VERTEX_SHADER, FRAGMENT_SHADER);
         mBlurSize = blurSize;
     }
 
     @Override
-    public float getVerticalTexelOffsetRatio() {
+    public float getVerticalTexelOffsetRatio()
+    {
         return mBlurSize;
     }
 
     @Override
-    public float getHorizontalTexelOffsetRatio() {
+    public float getHorizontalTexelOffsetRatio()
+    {
         return mBlurSize;
     }
 
@@ -106,11 +111,14 @@ public class GPUImageGaussianBlurFilter extends GPUImageTwoPassTextureSamplingFi
      *
      * @param blurSize from 0.0 on up, default 1.0
      */
-    public void setBlurSize(float blurSize) {
+    public void setBlurSize(float blurSize)
+    {
         mBlurSize = blurSize;
-        runOnDraw(new Runnable() {
+        runOnDraw(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 initTexelOffsets();
             }
         });

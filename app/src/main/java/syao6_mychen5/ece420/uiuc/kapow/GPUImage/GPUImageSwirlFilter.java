@@ -16,15 +16,16 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.graphics.PointF;
 import android.opengl.GLES20;
+
+;
 
 /**
  * Creates a swirl distortion on the image.
  */
-public class GPUImageSwirlFilter extends GPUImageFilter {
+public class GPUImageSwirlFilter extends GPUImageFilter
+{
     public static final String SWIRL_FRAGMENT_SHADER = "" +
             "varying highp vec2 textureCoordinate;\n" +
             "\n" +
@@ -60,11 +61,13 @@ public class GPUImageSwirlFilter extends GPUImageFilter {
     private PointF mCenter;
     private int mCenterLocation;
 
-    public GPUImageSwirlFilter() {
+    public GPUImageSwirlFilter()
+    {
         this(0.5f, 1.0f, new PointF(0.5f, 0.5f));
     }
 
-    public GPUImageSwirlFilter(float radius, float angle, PointF center) {
+    public GPUImageSwirlFilter(float radius, float angle, PointF center)
+    {
         super(NO_FILTER_VERTEX_SHADER, SWIRL_FRAGMENT_SHADER);
         mRadius = radius;
         mAngle = angle;
@@ -72,7 +75,8 @@ public class GPUImageSwirlFilter extends GPUImageFilter {
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mAngleLocation = GLES20.glGetUniformLocation(getProgram(), "angle");
         mRadiusLocation = GLES20.glGetUniformLocation(getProgram(), "radius");
@@ -80,7 +84,8 @@ public class GPUImageSwirlFilter extends GPUImageFilter {
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setRadius(mRadius);
         setAngle(mAngle);
@@ -92,7 +97,8 @@ public class GPUImageSwirlFilter extends GPUImageFilter {
      *
      * @param radius from 0.0 to 1.0, default 0.5
      */
-    public void setRadius(float radius) {
+    public void setRadius(float radius)
+    {
         mRadius = radius;
         setFloat(mRadiusLocation, radius);
     }
@@ -102,7 +108,8 @@ public class GPUImageSwirlFilter extends GPUImageFilter {
      *
      * @param angle minimum 0.0, default 1.0
      */
-    public void setAngle(float angle) {
+    public void setAngle(float angle)
+    {
         mAngle = angle;
         setFloat(mAngleLocation, angle);
     }
@@ -112,7 +119,8 @@ public class GPUImageSwirlFilter extends GPUImageFilter {
      *
      * @param center default (0.5, 0.5)
      */
-    public void setCenter(PointF center) {
+    public void setCenter(PointF center)
+    {
         mCenter = center;
         setPoint(mCenterLocation, center);
     }

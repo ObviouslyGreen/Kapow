@@ -151,8 +151,8 @@ public class MainActivity extends Activity implements FilterFragment.OnFragmentI
         switch (item.getItemId())
         {
             case R.id.action_settings:
-                //Intent intent = new Intent(MainActivity.this, KapowPreferenceActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, KapowPreferencesActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

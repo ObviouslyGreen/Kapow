@@ -16,14 +16,15 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
+
+;
 
 /**
  * exposure: The adjusted exposure (-10.0 - 10.0, with 0.0 as the default)
  */
-public class GPUImageExposureFilter extends GPUImageFilter {
+public class GPUImageExposureFilter extends GPUImageFilter
+{
     public static final String EXPOSURE_FRAGMENT_SHADER = "" +
             " varying highp vec2 textureCoordinate;\n" +
             " \n" +
@@ -40,28 +41,33 @@ public class GPUImageExposureFilter extends GPUImageFilter {
     private int mExposureLocation;
     private float mExposure;
 
-    public GPUImageExposureFilter() {
+    public GPUImageExposureFilter()
+    {
         this(1.0f);
     }
 
-    public GPUImageExposureFilter(final float exposure) {
+    public GPUImageExposureFilter(final float exposure)
+    {
         super(NO_FILTER_VERTEX_SHADER, EXPOSURE_FRAGMENT_SHADER);
         mExposure = exposure;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mExposureLocation = GLES20.glGetUniformLocation(getProgram(), "exposure");
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setExposure(mExposure);
     }
 
-    public void setExposure(final float exposure) {
+    public void setExposure(final float exposure)
+    {
         mExposure = exposure;
         setFloat(mExposureLocation, mExposure);
     }

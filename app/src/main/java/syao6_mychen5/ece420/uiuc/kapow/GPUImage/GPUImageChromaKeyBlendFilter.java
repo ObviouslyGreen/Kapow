@@ -22,7 +22,8 @@ import android.opengl.GLES20;
 /**
  * Selectively replaces a color in the first image with the second image
  */
-public class GPUImageChromaKeyBlendFilter extends GPUImageTwoInputFilter {
+public class GPUImageChromaKeyBlendFilter extends GPUImageTwoInputFilter
+{
     public static final String CHROMA_KEY_BLEND_FRAGMENT_SHADER = " precision highp float;\n" +
             " \n" +
             " varying highp vec2 textureCoordinate;\n" +
@@ -58,13 +59,15 @@ public class GPUImageChromaKeyBlendFilter extends GPUImageTwoInputFilter {
     private float mThresholdSensitivity = 0.3f;
     private float[] mColorToReplace = new float[]{0.0f, 1.0f, 0.0f};
 
-    public GPUImageChromaKeyBlendFilter() {
+    public GPUImageChromaKeyBlendFilter()
+    {
         super(CHROMA_KEY_BLEND_FRAGMENT_SHADER);
 
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mThresholdSensitivityLocation = GLES20.glGetUniformLocation(getProgram(), "thresholdSensitivity");
         mSmoothingLocation = GLES20.glGetUniformLocation(getProgram(), "smoothing");
@@ -72,7 +75,8 @@ public class GPUImageChromaKeyBlendFilter extends GPUImageTwoInputFilter {
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setSmoothing(mSmoothing);
         setThresholdSensitivity(mThresholdSensitivity);
@@ -83,7 +87,8 @@ public class GPUImageChromaKeyBlendFilter extends GPUImageTwoInputFilter {
      * The degree of smoothing controls how gradually similar colors are replaced in the image
      * The default value is 0.1
      */
-    public void setSmoothing(final float smoothing) {
+    public void setSmoothing(final float smoothing)
+    {
         mSmoothing = smoothing;
         setFloat(mSmoothingLocation, mSmoothing);
     }
@@ -92,19 +97,22 @@ public class GPUImageChromaKeyBlendFilter extends GPUImageTwoInputFilter {
      * The threshold sensitivity controls how similar pixels need to be colored to be replaced
      * The default value is 0.3
      */
-    public void setThresholdSensitivity(final float thresholdSensitivity) {
+    public void setThresholdSensitivity(final float thresholdSensitivity)
+    {
         mThresholdSensitivity = thresholdSensitivity;
         setFloat(mThresholdSensitivityLocation, mThresholdSensitivity);
     }
 
-    /** The color to be replaced is specified using individual red, green, and blue components (normalized to 1.0).
+    /**
+     * The color to be replaced is specified using individual red, green, and blue components (normalized to 1.0).
      * The default is green: (0.0, 1.0, 0.0).
      *
-     * @param redComponent Red component of color to be replaced
+     * @param redComponent   Red component of color to be replaced
      * @param greenComponent Green component of color to be replaced
-     * @param blueComponent Blue component of color to be replaced
+     * @param blueComponent  Blue component of color to be replaced
      */
-    public void setColorToReplace(float redComponent, float greenComponent, float blueComponent) {
+    public void setColorToReplace(float redComponent, float greenComponent, float blueComponent)
+    {
         mColorToReplace = new float[]{redComponent, greenComponent, blueComponent};
         setFloatVec3(mColorToReplaceLocation, mColorToReplace);
     }

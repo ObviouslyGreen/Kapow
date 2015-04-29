@@ -16,9 +16,9 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.opengl.GLES20;
+
+;
 
 /**
  * Kuwahara image abstraction, drawn from the work of Kyprianidis, et. al. in their publication
@@ -26,7 +26,8 @@ import android.opengl.GLES20;
  * image, but it is extremely computationally expensive, so it can take seconds to render a frame on an iPad 2.
  * This might be best used for still images.
  */
-public class GPUImageKuwaharaFilter extends GPUImageFilter {
+public class GPUImageKuwaharaFilter extends GPUImageFilter
+{
     public static final String KUWAHARA_FRAGMENT_SHADER = "" +
             "varying highp vec2 textureCoordinate;\n" +
             "uniform sampler2D inputImageTexture;\n" +
@@ -119,23 +120,27 @@ public class GPUImageKuwaharaFilter extends GPUImageFilter {
     private int mRadius;
     private int mRadiusLocation;
 
-    public GPUImageKuwaharaFilter() {
+    public GPUImageKuwaharaFilter()
+    {
         this(3);
     }
 
-    public GPUImageKuwaharaFilter(int radius) {
+    public GPUImageKuwaharaFilter(int radius)
+    {
         super(NO_FILTER_VERTEX_SHADER, KUWAHARA_FRAGMENT_SHADER);
         mRadius = radius;
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mRadiusLocation = GLES20.glGetUniformLocation(getProgram(), "radius");
     }
 
     @Override
-    public void onInitialized() {
+    public void onInitialized()
+    {
         super.onInitialized();
         setRadius(mRadius);
     }
@@ -146,7 +151,8 @@ public class GPUImageKuwaharaFilter extends GPUImageFilter {
      *
      * @param radius default 3
      */
-    public void setRadius(final int radius) {
+    public void setRadius(final int radius)
+    {
         mRadius = radius;
         setInteger(mRadiusLocation, radius);
     }

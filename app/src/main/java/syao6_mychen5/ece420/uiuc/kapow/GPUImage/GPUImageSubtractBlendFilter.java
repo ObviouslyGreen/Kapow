@@ -18,7 +18,8 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 ;
 
-public class GPUImageSubtractBlendFilter extends GPUImageTwoInputFilter {
+public class GPUImageSubtractBlendFilter extends GPUImageTwoInputFilter
+{
     public static final String SUBTRACT_BLEND_FRAGMENT_SHADER = "varying highp vec2 textureCoordinate;\n" +
             " varying highp vec2 textureCoordinate2;\n" +
             "\n" +
@@ -33,7 +34,8 @@ public class GPUImageSubtractBlendFilter extends GPUImageTwoInputFilter {
             "   gl_FragColor = vec4(textureColor.rgb - textureColor2.rgb, textureColor.a);\n" +
             " }";
 
-    public GPUImageSubtractBlendFilter() {
+    public GPUImageSubtractBlendFilter()
+    {
         super(SUBTRACT_BLEND_FRAGMENT_SHADER);
     }
 }

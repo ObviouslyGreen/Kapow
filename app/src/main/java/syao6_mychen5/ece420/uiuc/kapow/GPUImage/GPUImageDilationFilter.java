@@ -23,7 +23,8 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
  * out dilationRadius pixels from the center.
  * This extends out bright features, and is most commonly used with black-and-white thresholded images.
  */
-public class GPUImageDilationFilter extends GPUImageTwoPassTextureSamplingFilter {
+public class GPUImageDilationFilter extends GPUImageTwoPassTextureSamplingFilter
+{
     public static final String VERTEX_SHADER_1 =
             "attribute vec4 position;\n" +
                     "attribute vec2 inputTextureCoordinate;\n" +
@@ -259,7 +260,8 @@ public class GPUImageDilationFilter extends GPUImageTwoPassTextureSamplingFilter
                     "}\n";
 
 
-    public GPUImageDilationFilter() {
+        public GPUImageDilationFilter()
+        {
         this(1);
     }
 
@@ -269,16 +271,20 @@ public class GPUImageDilationFilter extends GPUImageTwoPassTextureSamplingFilter
      *
      * @param radius 1, 2, 3 or 4
      */
-    public GPUImageDilationFilter(int radius) {
+    public GPUImageDilationFilter(int radius)
+    {
         this(getVertexShader(radius), getFragmentShader(radius));
     }
 
-    private GPUImageDilationFilter(String vertexShader, String fragmentShader) {
+        private GPUImageDilationFilter(String vertexShader, String fragmentShader)
+        {
         super(vertexShader, fragmentShader, vertexShader, fragmentShader);
     }
 
-    private static String getVertexShader(int radius) {
-        switch (radius) {
+        private static String getVertexShader(int radius)
+        {
+                switch (radius)
+                {
             case 0:
             case 1:
                 return VERTEX_SHADER_1;
@@ -291,8 +297,10 @@ public class GPUImageDilationFilter extends GPUImageTwoPassTextureSamplingFilter
         }
     }
 
-    private static String getFragmentShader(int radius) {
-        switch (radius) {
+        private static String getFragmentShader(int radius)
+        {
+                switch (radius)
+                {
             case 0:
             case 1:
                 return FRAGMENT_SHADER_1;

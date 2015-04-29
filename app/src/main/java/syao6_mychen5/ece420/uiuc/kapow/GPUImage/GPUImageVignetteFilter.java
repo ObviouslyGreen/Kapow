@@ -16,17 +16,18 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 import android.graphics.PointF;
 import android.opengl.GLES20;
+
+;
 
 /**
  * Performs a vignetting effect, fading out the image at the edges
  * x:
  * y: The directional intensity of the vignetting, with a default of x = 0.75, y = 0.5
  */
-public class GPUImageVignetteFilter extends GPUImageFilter {
+public class GPUImageVignetteFilter extends GPUImageFilter
+{
     public static final String VIGNETTING_FRAGMENT_SHADER = "" +
             " uniform sampler2D inputImageTexture;\n" +
             " varying highp vec2 textureCoordinate;\n" +
@@ -59,28 +60,31 @@ public class GPUImageVignetteFilter extends GPUImageFilter {
     private float mVignetteStart;
     private int mVignetteEndLocation;
     private float mVignetteEnd;
-    
-    public GPUImageVignetteFilter() {
-        this(new PointF(), new float[] {0.0f, 0.0f, 0.0f}, 0.3f, 0.75f);
+
+    public GPUImageVignetteFilter()
+    {
+        this(new PointF(), new float[]{0.0f, 0.0f, 0.0f}, 0.3f, 0.75f);
     }
-    
-    public GPUImageVignetteFilter(final PointF vignetteCenter, final float[] vignetteColor, final float vignetteStart, final float vignetteEnd) {
+
+    public GPUImageVignetteFilter(final PointF vignetteCenter, final float[] vignetteColor, final float vignetteStart, final float vignetteEnd)
+    {
         super(NO_FILTER_VERTEX_SHADER, VIGNETTING_FRAGMENT_SHADER);
         mVignetteCenter = vignetteCenter;
         mVignetteColor = vignetteColor;
         mVignetteStart = vignetteStart;
         mVignetteEnd = vignetteEnd;
-        
+
     }
 
     @Override
-    public void onInit() {
+    public void onInit()
+    {
         super.onInit();
         mVignetteCenterLocation = GLES20.glGetUniformLocation(getProgram(), "vignetteCenter");
         mVignetteColorLocation = GLES20.glGetUniformLocation(getProgram(), "vignetteColor");
         mVignetteStartLocation = GLES20.glGetUniformLocation(getProgram(), "vignetteStart");
         mVignetteEndLocation = GLES20.glGetUniformLocation(getProgram(), "vignetteEnd");
-        
+
         setVignetteCenter(mVignetteCenter);
         setVignetteColor(mVignetteColor);
         setVignetteStart(mVignetteStart);
@@ -88,22 +92,26 @@ public class GPUImageVignetteFilter extends GPUImageFilter {
     }
 
 
-    public void setVignetteCenter(final PointF vignetteCenter) {
+    public void setVignetteCenter(final PointF vignetteCenter)
+    {
         mVignetteCenter = vignetteCenter;
         setPoint(mVignetteCenterLocation, mVignetteCenter);
     }
 
-    public void setVignetteColor(final float[] vignetteColor) {
+    public void setVignetteColor(final float[] vignetteColor)
+    {
         mVignetteColor = vignetteColor;
         setFloatVec3(mVignetteColorLocation, mVignetteColor);
     }
-    
-    public void setVignetteStart(final float vignetteStart) {
+
+    public void setVignetteStart(final float vignetteStart)
+    {
         mVignetteStart = vignetteStart;
         setFloat(mVignetteStartLocation, mVignetteStart);
     }
-    
-    public void setVignetteEnd(final float vignetteEnd) {
+
+    public void setVignetteEnd(final float vignetteEnd)
+    {
         mVignetteEnd = vignetteEnd;
         setFloat(mVignetteEndLocation, mVignetteEnd);
     }

@@ -20,7 +20,8 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 /**
  * Mix ranges from 0.0 (only image 1) to 1.0 (only image 2), with 0.5 (half of either) as the normal level
  */
-public class GPUImageAlphaBlendFilter extends GPUImageMixBlendFilter{
+public class GPUImageAlphaBlendFilter extends GPUImageMixBlendFilter
+{
     public static final String ALPHA_BLEND_FRAGMENT_SHADER = "varying highp vec2 textureCoordinate;\n" +
             " varying highp vec2 textureCoordinate2;\n" +
             "\n" +
@@ -37,11 +38,13 @@ public class GPUImageAlphaBlendFilter extends GPUImageMixBlendFilter{
             "   gl_FragColor = vec4(mix(textureColor.rgb, textureColor2.rgb, textureColor2.a * mixturePercent), textureColor.a);\n" +
             " }";
 
-    public GPUImageAlphaBlendFilter() {
+    public GPUImageAlphaBlendFilter()
+    {
         super(ALPHA_BLEND_FRAGMENT_SHADER);
     }
 
-    public GPUImageAlphaBlendFilter(float mix) {
+    public GPUImageAlphaBlendFilter(float mix)
+    {
         super(ALPHA_BLEND_FRAGMENT_SHADER, mix);
     }
 }
