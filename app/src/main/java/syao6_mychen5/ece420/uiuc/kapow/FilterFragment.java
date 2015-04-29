@@ -188,7 +188,6 @@ public class FilterFragment extends Fragment
                 {
                     e.printStackTrace();
                 }
-                Log.w("myApp", "pooooooop111111");
                 Uri filteredUri = null;
                 try
                 {
