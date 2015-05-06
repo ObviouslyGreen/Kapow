@@ -3,7 +3,6 @@ package syao6_mychen5.ece420.uiuc.kapow;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -34,10 +33,10 @@ import java.io.OutputStream;
  * Activities that contain this fragment must implement the
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link PageFragment#newInstance} factory method to
+ * Use the {@link ComicPageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PageFragment extends Fragment implements View.OnClickListener
+public class ComicPageFragment extends Fragment implements View.OnClickListener
 {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,9 +61,9 @@ public class PageFragment extends Fragment implements View.OnClickListener
      * @return A new instance of fragment PageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PageFragment newInstance(String param1, String param2)
+    public static ComicPageFragment newInstance(String param1, String param2)
     {
-        PageFragment fragment = new PageFragment();
+        ComicPageFragment fragment = new ComicPageFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -72,7 +71,7 @@ public class PageFragment extends Fragment implements View.OnClickListener
         return fragment;
     }
 
-    public PageFragment()
+    public ComicPageFragment()
     {
         // Required empty public constructor
     }
