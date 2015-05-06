@@ -31,13 +31,13 @@
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="title_activity_kapow_preferences">Settings</string>
     <string name="ms_settings">Mean Shift</string>
-    <string name="ms_spatial_res">Spatial Window Radius ( > 0)</string>
-    <string name="ms_color_res">Color Window Radius ( > 0)</string>
-    <string name="ms_max_level">Max Level (0-8)</string>
+    <string name="ms_spatial_res">Spatial Window Radius ( > 0) - Default: 5</string>
+    <string name="ms_color_res">Color Window Radius ( > 0) - Default: 10</string>
+    <string name="ms_max_level">Max Level (0-8) - Default: 3</string>
     <string name="bilateral_settings">Bilateral Filter</string>
-    <string name="bilateral_diameter">Pixel Neighborhood Diameter</string>
-    <string name="bilateral_color">Color Filter Sigma</string>
-    <string name="bilateral_space">Space Filter Sigma</string>
+    <string name="bilateral_diameter">Pixel Neighborhood Diameter - Default: 7</string>
+    <string name="bilateral_color">Color Filter Sigma - Default 150</string>
+    <string name="bilateral_space">Space Filter Sigma - Default 150</string>
     <string name="pref_category_one">Default Values</string>
 
     <string-array name="filter_array">
