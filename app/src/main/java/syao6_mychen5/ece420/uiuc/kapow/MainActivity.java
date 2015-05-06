@@ -3,6 +3,7 @@ package syao6_mychen5.ece420.uiuc.kapow;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.net.Uri;
@@ -22,7 +23,7 @@ import syao6_mychen5.ece420.uiuc.kapow.adapter.NavDrawerListAdapter;
 import syao6_mychen5.ece420.uiuc.kapow.model.NavDrawerItem;
 
 public class MainActivity extends Activity implements FilterFragment.OnFragmentInteractionListener,
-        ComicPageFragment.OnFragmentInteractionListener, PanelFragment.OnFragmentInteractionListener,
+        ComicPageFragment.OnFragmentInteractionListener, BubbleFragment.OnFragmentInteractionListener,
         ViewFragment.OnFragmentInteractionListener
 {
     private DrawerLayout mDrawerLayout;
@@ -188,7 +189,7 @@ public class MainActivity extends Activity implements FilterFragment.OnFragmentI
                 fragment = new ComicPageFragment();
                 break;
             case 2:
-                fragment = new PanelFragment();
+                fragment = new BubbleFragment();
                 break;
             case 3:
                 fragment = new ViewFragment();
