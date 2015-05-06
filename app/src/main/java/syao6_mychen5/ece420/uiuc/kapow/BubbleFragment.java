@@ -297,6 +297,7 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
             fOut.close();
             Log.w("myAPP","SWAG");
             path = MediaStore.Images.Media.insertImage(MyApplication.getAppContext().getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+            Toast.makeText(MyApplication.getAppContext(), "Save Successful", Toast.LENGTH_SHORT).show();
         } catch (FileNotFoundException e)
         {
             e.printStackTrace();
