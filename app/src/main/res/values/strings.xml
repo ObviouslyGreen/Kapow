@@ -43,6 +43,9 @@
     <string-array name="filter_array">
         <item>Mean Shift + Toon Filter</item>
         <item>Bilateral Filter</item>
+        <item>Grayscal Filtere</item>
+        <item>Sketch Filter</item>
+        <item>Smooth and Toon Filter</item>
     </string-array>
 
 

@@ -129,8 +129,8 @@ public class ViewFragment extends Fragment
                                             String comicTitle = ((EditText) getView().findViewById(R.id.comic_book_title)).getText().toString();
 
                                             File sd = Environment.getExternalStoragePublicDirectory(
-                                                    Environment.DIRECTORY_DOCUMENTS);
-                                            File directory = new File(sd, "Kapow");
+                                                    Environment.DIRECTORY_PICTURES);
+                                            File directory = new File(sd, "Kapow/Comics");
                                             directory.mkdirs();
 
                                             String comicPath = directory.getAbsolutePath() + "/" + comicTitle + ".pdf";

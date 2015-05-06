@@ -42,6 +42,9 @@ import java.util.List;
 import java.util.Locale;
 
 import syao6_mychen5.ece420.uiuc.kapow.GPUImage.GPUImage;
+import syao6_mychen5.ece420.uiuc.kapow.GPUImage.GPUImageGrayscaleFilter;
+import syao6_mychen5.ece420.uiuc.kapow.GPUImage.GPUImageSketchFilter;
+import syao6_mychen5.ece420.uiuc.kapow.GPUImage.GPUImageSmoothToonFilter;
 import syao6_mychen5.ece420.uiuc.kapow.GPUImage.GPUImageToonFilter;
 
 import static org.opencv.android.Utils.matToBitmap;
@@ -147,7 +150,7 @@ public class FilterFragment extends Fragment
                                     {
                                         public void onClick(View view)
                                         {
-                                            if (!getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))
+                                            if (!getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY))
                                             {
                                                 Toast.makeText(MyApplication.getAppContext(), "No camera detected", Toast.LENGTH_SHORT).show();
                                                 return;
@@ -295,6 +298,15 @@ public class FilterFragment extends Fragment
                     //Toast.makeText(MyApplication.getAppContext(), "Invalid arguments", Toast.LENGTH_SHORT).show();
                     return null;
                 }
+            } else if(currFilter.equals("Grayscale Filter"))
+            {
+                filteredUri = grayscale(bitmap);
+            } else if(currFilter.equals("Sketch Filter"))
+            {
+                filteredUri = sketchFilter(bitmap);
+            } else if(currFilter.equals("Smooth and Toon Filter"))
+            {
+                filteredUri = smoothToonFilter(bitmap);
             }
         } catch (IOException e)
         {
@@ -349,6 +361,35 @@ public class FilterFragment extends Fragment
         return bmpToUri(bmpout);
     }
 
+    public Uri grayscale(Bitmap bmp)
+    {
+        GPUImage mGPUImage = new GPUImage(MyApplication.getAppContext());
+        mGPUImage.setFilter(new GPUImageGrayscaleFilter());
+        mGPUImage.setImage(bmp);
+        Bitmap bmpout = mGPUImage.getBitmapWithFilterApplied();
+
+        return bmpToUri(bmpout);
+    }
+
+    public Uri sketchFilter(Bitmap bmp)
+    {
+        GPUImage mGPUImage = new GPUImage(MyApplication.getAppContext());
+        mGPUImage.setFilter(new GPUImageSketchFilter());
+        mGPUImage.setImage(bmp);
+        Bitmap bmpout = mGPUImage.getBitmapWithFilterApplied();
+
+        return bmpToUri(bmpout);
+    }
+
+    public Uri smoothToonFilter(Bitmap bmp)
+    {
+        GPUImage mGPUImage = new GPUImage(MyApplication.getAppContext());
+        mGPUImage.setFilter(new GPUImageSmoothToonFilter());
+        mGPUImage.setImage(bmp);
+        Bitmap bmpout = mGPUImage.getBitmapWithFilterApplied();
+
+        return bmpToUri(bmpout);
+    }
 
     public void displayPhoto(Uri uri)
     {
