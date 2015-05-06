@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:splitMotionEvents="true"
-                tools:context="syao6_mychen5.ece420.uiuc.kapow.FilterFragment">
+                tools:context="syao6_mychen5.ece420.uiuc.kapow.ComicPageFragment">
 
     <RelativeLayout android:layout_width="match_parent"
                android:layout_height="match_parent"
