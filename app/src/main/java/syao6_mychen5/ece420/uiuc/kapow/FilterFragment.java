@@ -5,8 +5,11 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -33,6 +36,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import syao6_mychen5.ece420.uiuc.kapow.GPUImage.GPUImage;
 import syao6_mychen5.ece420.uiuc.kapow.GPUImage.GPUImageToonFilter;
@@ -53,6 +60,12 @@ import static org.opencv.imgproc.Imgproc.pyrMeanShiftFiltering;
 public class FilterFragment extends Fragment
 {
     private static final int SELECT_PICTURE = 1;
+    private static final int TAKE_PICTURE = 2;
+    private String currFilter;
+    private ProgressDialog pd;
+    private Bitmap currentBitmap = null;
+    private Uri currCamPath;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -63,7 +76,6 @@ public class FilterFragment extends Fragment
     private String mParam1;
     private String mParam2;
 
-    private String curr_filter;
 
     static
     {
@@ -130,6 +142,30 @@ public class FilterFragment extends Fragment
                                     }
                 );
 
+        ((Button) v.findViewById(R.id.camera_input_button))
+                .setOnClickListener(new View.OnClickListener()
+                                    {
+                                        public void onClick(View view)
+                                        {
+                                            if (!getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))
+                                            {
+                                                Toast.makeText(MyApplication.getAppContext(), "No camera detected", Toast.LENGTH_SHORT).show();
+                                                return;
+                                            }
+                                            if (!hasCameraApp(MediaStore.ACTION_IMAGE_CAPTURE))
+                                            {
+                                                Toast.makeText(MyApplication.getAppContext(), "No camera app found", Toast.LENGTH_SHORT).show();
+                                                return;
+                                            }
+                                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                            String photoStorePath = getProductPhotoDirectory().getAbsolutePath();
+                                            currCamPath = getPhotoFileUri(photoStorePath);
+                                            intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, currCamPath);
+                                            startActivityForResult(intent, TAKE_PICTURE);
+                                        }
+                                    }
+                );
+
         Spinner spinner = (Spinner) v.findViewById(R.id.filter_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(),
@@ -143,12 +179,12 @@ public class FilterFragment extends Fragment
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
             {
                 Object item = parent.getItemAtPosition(pos);
-                curr_filter = item.toString();
+                currFilter = item.toString();
             }
 
             public void onNothingSelected(AdapterView<?> parent)
             {
-                curr_filter = "";
+                currFilter = "";
             }
         });
 
@@ -209,59 +245,63 @@ public class FilterFragment extends Fragment
             if (requestCode == SELECT_PICTURE)
             {
                 Uri selectedImageUri = data.getData();
-                Bitmap bitmap = null;
-                try
-                {
-                    bitmap = MediaStore.Images.Media.getBitmap(MyApplication.getAppContext().getContentResolver(), selectedImageUri);
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-                Uri filteredUri = null;
-                try
-                {
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
-
-                    if (curr_filter.equals("Mean Shift + Toon Filter"))
-                    {
-                        double sp, sr;
-                        int maxLevel;
-
-                        sp = Double.parseDouble(prefs.getString("ms_spatial_res", "5"));
-                        sr = Double.parseDouble(prefs.getString("ms_color_res", "10"));
-                        maxLevel = Integer.parseInt(prefs.getString("ms_max_level", "3"));
-                        if (sp > 0 && sr > 0 && maxLevel >= 0 && maxLevel <= 8)
-                        {
-                            filteredUri = mean_shift(bitmap, sp, sr, maxLevel);
-                        } else
-                        {
-                            Toast.makeText(MyApplication.getAppContext(), "Invalid arguments", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    } else if (curr_filter.equals("Bilateral Filter"))
-                    {
-                        int d;
-                        double sigmaColor, sigmaSpace;
-
-                        d = Integer.parseInt(prefs.getString("bilateral_diameter", "7"));
-                        sigmaColor = Double.parseDouble(prefs.getString("bilateral_color", "150"));
-                        sigmaSpace = Double.parseDouble(prefs.getString("bilateral_space", "150"));
-                        if (d > 0 && sigmaColor > 0 && sigmaSpace > 0)
-                        {
-                            filteredUri = bilateral(bitmap, d, sigmaColor, sigmaSpace);
-                        } else
-                        {
-                            Toast.makeText(MyApplication.getAppContext(), "Invalid arguments", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    }
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-                displayPhoto(filteredUri);
+                FileInputTask filterTask = new FileInputTask();
+                filterTask.execute(selectedImageUri);
+            } else if (requestCode == TAKE_PICTURE)
+            {
+                FileInputTask filterTask = new FileInputTask();
+                filterTask.execute(currCamPath);
             }
         }
+    }
+
+    public Uri chooseFilter(Bitmap bitmap)
+    {
+        Uri filteredUri = null;
+        //Toast.makeText(MyApplication.getAppContext(), "Filtering Started!", Toast.LENGTH_LONG).show();
+        try
+        {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+
+            if (currFilter.equals("Mean Shift + Toon Filter"))
+            {
+                double sp, sr;
+                int maxLevel;
+
+                sp = Double.parseDouble(prefs.getString("ms_spatial_res", "5"));
+                sr = Double.parseDouble(prefs.getString("ms_color_res", "10"));
+                maxLevel = Integer.parseInt(prefs.getString("ms_max_level", "3"));
+                if (sp > 0 && sr > 0 && maxLevel >= 0 && maxLevel <= 8)
+                {
+                    filteredUri = mean_shift(bitmap, sp, sr, maxLevel);
+                } else
+                {
+                    //Toast.makeText(MyApplication.getAppContext(), "Invalid arguments", Toast.LENGTH_SHORT).show();
+                    return null;
+                }
+            } else if (currFilter.equals("Bilateral Filter"))
+            {
+                int d;
+                double sigmaColor, sigmaSpace;
+
+                d = Integer.parseInt(prefs.getString("bilateral_diameter", "7"));
+                sigmaColor = Double.parseDouble(prefs.getString("bilateral_color", "150"));
+                sigmaSpace = Double.parseDouble(prefs.getString("bilateral_space", "150"));
+                if (d > 0 && sigmaColor > 0 && sigmaSpace > 0)
+                {
+                    filteredUri = bilateral(bitmap, d, sigmaColor, sigmaSpace);
+                } else
+                {
+                    //Toast.makeText(MyApplication.getAppContext(), "Invalid arguments", Toast.LENGTH_SHORT).show();
+                    return null;
+                }
+            }
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return filteredUri;
     }
 
     public Uri mean_shift(Bitmap bmp, double sp, double sr, int maxLevel) throws IOException
@@ -370,4 +410,82 @@ public class FilterFragment extends Fragment
         return Uri.parse(path);
     }
 
+    private boolean hasCameraApp(String action)
+    {
+        final PackageManager packageManager = getActivity().getPackageManager();
+        final Intent intent = new Intent(action);
+        List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+
+        return list.size() > 0;
+    }
+
+    private class FileInputTask extends AsyncTask<Uri, Void, Uri>
+    {
+        @Override
+        protected Uri doInBackground(Uri... param)
+        {
+            Uri selectedImageUri = param[0];
+            Uri filteredUri = null;
+            Bitmap bitmap = null;
+            try
+            {
+                bitmap = MediaStore.Images.Media.getBitmap(MyApplication.getAppContext().getContentResolver(), selectedImageUri);
+                filteredUri = chooseFilter(bitmap);
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return filteredUri;
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            if (pd != null)
+            {
+                pd.dismiss();
+            }
+            pd = new ProgressDialog(getActivity(), ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
+            pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pd.setCancelable(false);
+            pd.setMessage("Processing...");
+            pd.show();
+        }
+
+        @Override
+        protected void onPostExecute(Uri filteredUri)
+        {
+            if (filteredUri != (null))
+            {
+                displayPhoto(filteredUri);
+            }
+
+            if (pd.isShowing() && pd != null)
+            {
+                pd.dismiss();
+            }
+        }
+    }
+
+    private File getProductPhotoDirectory()
+    {
+        //get directory where file should be stored
+        return new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES),
+                "Kapow");
+    }
+
+    private Uri getPhotoFileUri(final String photoStorePath)
+    {
+
+        //timestamp used in file name
+        final String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                Locale.US).format(new Date());
+
+        // file uri with timestamp
+        final Uri fileUri = Uri.fromFile(new java.io.File(photoStorePath
+                + java.io.File.separator + "IMG_" + timestamp + ".jpg"));
+
+        return fileUri;
+    }
 }

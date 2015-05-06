@@ -85,6 +85,7 @@ public class MainActivity extends Activity implements FilterFragment.OnFragmentI
         mDrawerList.setAdapter(adapter);
 
         // enabling action bar app icon and behaving it as toggle button
+
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
