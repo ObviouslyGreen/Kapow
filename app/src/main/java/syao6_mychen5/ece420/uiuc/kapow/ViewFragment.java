@@ -12,12 +12,12 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ComicFragment.OnFragmentInteractionListener} interface
+ * {@link ViewFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ComicFragment#newInstance} factory method to
+ * Use the {@link ViewFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ComicFragment extends Fragment
+public class ViewFragment extends Fragment
 {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,9 +39,9 @@ public class ComicFragment extends Fragment
      * @return A new instance of fragment ViewFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ComicFragment newInstance(String param1, String param2)
+    public static ViewFragment newInstance(String param1, String param2)
     {
-        ComicFragment fragment = new ComicFragment();
+        ViewFragment fragment = new ViewFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -49,7 +49,7 @@ public class ComicFragment extends Fragment
         return fragment;
     }
 
-    public ComicFragment()
+    public ViewFragment()
     {
         // Required empty public constructor
     }

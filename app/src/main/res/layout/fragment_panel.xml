@@ -1,8 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:splitMotionEvents="true"
                 android:background="@color/listViewBg"
-                android:orientation="vertical" >
+                tools:context="syao6_mychen5.ece420.uiuc.kapow.BubbleFragment">
 
     <Button
         android:layout_width="wrap_content"
@@ -44,6 +46,27 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_left_button"
+        android:layout_alignTop="@+id/text_right_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/speech_left"
+        android:textColor="#ff000000"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_right_button"
+        android:layout_above="@+id/done_button"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/speech_right"
+        android:textColor="#ff000000"
+        android:singleLine="false"/>
+
     <RelativeLayout android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:layout_marginLeft="25dp"
@@ -74,15 +97,47 @@
     </RelativeLayout>
 
     <EditText
-        android:id="@+id/text"
+        android:id="@+id/textleft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/speech_left"
         android:padding="5sp"
         android:textColor="@color/textFieldColor"
-        android:layout_above="@+id/save_panel_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="115dp"/>
+        android:text="\n"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <EditText
+        android:id="@+id/textright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/speech_right"
+        android:padding="5sp"
+        android:textColor="@color/textFieldColor"
+        android:text="\n"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/text_right_button"
+        android:layout_alignEnd="@+id/text_right_button"/>
+
+    <Button
+        android:id="@+id/change_font_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffa9c7fc"
+        android:paddingBottom="5sp"
+        android:paddingLeft="15sp"
+        android:paddingRight="15sp"
+        android:paddingTop="5sp"
+        android:text="Change Font"
+        android:textColor="#ff000000"
+        android:layout_alignBottom="@+id/text_left_button"
+        android:layout_toRightOf="@+id/file_input_button"
+        android:layout_alignRight="@+id/save_panel_button"
+        android:layout_alignEnd="@+id/save_panel_button"/>
 
 </RelativeLayout>
