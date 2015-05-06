@@ -2,20 +2,12 @@ package syao6_mychen5.ece420.uiuc.kapow;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.app.ListActivity;
-import android.os.AsyncTask;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -24,12 +16,12 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link PanelFragment.OnFragmentInteractionListener} interface
+ * {@link BubbleFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link PanelFragment#newInstance} factory method to
+ * Use the {@link BubbleFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PanelFragment extends Fragment
+public class BubbleFragment extends Fragment
 {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,9 +47,9 @@ public class PanelFragment extends Fragment
      * @return A new instance of fragment ComicFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PanelFragment newInstance(String param1, String param2)
+    public static BubbleFragment newInstance(String param1, String param2)
     {
-        PanelFragment fragment = new PanelFragment();
+        BubbleFragment fragment = new BubbleFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,7 +57,7 @@ public class PanelFragment extends Fragment
         return fragment;
     }
 
-    public PanelFragment()
+    public BubbleFragment()
     {
         // Required empty public constructor
     }
