@@ -240,14 +240,14 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
         String path = null;
         File sd = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
-        File directory = new File(sd, "Kapow");
+        File directory = new File(sd, "Kapow/Pages");
         try {
             directory.mkdirs();
         } catch(Exception e) {}
-        file = new File(sd, "Kapow/"+"ComicPage.png");
+        file = new File(sd, "Kapow/Pages" + "ComicPage.png");
         while (file.exists()) {
             counter++;
-            file = new File(sd, "Kapow/" + "ComicPage" + "(" + counter + ").png");
+            file = new File(sd, "Kapow/Pages" + "ComicPage" + "(" + counter + ").png");
         }
         try{
             fOut = new FileOutputStream(file);
