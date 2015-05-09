@@ -12,8 +12,8 @@
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item>Filtering</item>
-        <item>Kapow Pages</item>
         <item>Speech Bubbles</item>
+        <item>Kapow Pages</item>
         <item>Create your comic!</item>
     </string-array>
 
@@ -43,7 +43,7 @@
     <string-array name="filter_array">
         <item>Mean Shift + Toon Filter</item>
         <item>Bilateral Filter</item>
-        <item>Grayscal Filtere</item>
+        <item>Grayscale Filter</item>
         <item>Sketch Filter</item>
         <item>Smooth and Toon Filter</item>
     </string-array>

@@ -186,10 +186,10 @@ public class MainActivity extends Activity implements FilterFragment.OnFragmentI
                 fragment = new FilterFragment();
                 break;
             case 1:
-                fragment = new ComicPageFragment();
+                fragment = new BubbleFragment();
                 break;
             case 2:
-                fragment = new BubbleFragment();
+                fragment = new ComicPageFragment();
                 break;
             case 3:
                 fragment = new ViewFragment();

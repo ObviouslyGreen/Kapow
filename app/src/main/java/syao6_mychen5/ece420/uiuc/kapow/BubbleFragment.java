@@ -259,7 +259,7 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
                 type = Typeface.createFromAsset(MyApplication.getAppContext().getAssets(), "fonts/orangejuice/orangejuice.ttf");
                 break;
             case 2:
-                //type = Typeface.createFromAsset(MyApplication.getAppContext().getAssets(), "fonts/bdb/BADABB_.ttf");
+                type = Typeface.createFromAsset(MyApplication.getAppContext().getAssets(), "fonts/bdb/bdb.ttf");
                 break;
             case 3:
                 type = Typeface.createFromAsset(MyApplication.getAppContext().getAssets(), "fonts/fcb/FromCartoonBlocks.ttf");
@@ -330,7 +330,7 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
                 return true;
             }
         });
-        img.setOnTouchListener(new MultiTouchListener());
+        //img.setOnTouchListener(new MultiTouchListener());
         img.setImageURI(uri);
     }
 
