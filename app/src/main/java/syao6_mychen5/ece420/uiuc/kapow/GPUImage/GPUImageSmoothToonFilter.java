@@ -16,8 +16,6 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 /**
  * This uses a similar process as the GPUImageToonFilter, only it precedes the toon effect
  * with a Gaussian blur to smooth out noise.

@@ -18,8 +18,6 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 import android.opengl.GLES20;
 
-;
-
 /**
  * saturation: The degree of saturation or desaturation to apply to the image (0.0 - 2.0, with 1.0 as the default)
  */

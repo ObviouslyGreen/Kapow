@@ -25,8 +25,6 @@ import java.nio.FloatBuffer;
 
 import syao6_mychen5.ece420.uiuc.kapow.GPUImage.util.TextureRotationUtil;
 
-;
-
 public class GPUImageTwoInputFilter extends GPUImageFilter
 {
     private static final String VERTEX_SHADER = "attribute vec4 position;\n" +
@@ -75,6 +73,11 @@ public class GPUImageTwoInputFilter extends GPUImageFilter
         }
     }
 
+    public Bitmap getBitmap()
+    {
+        return mBitmap;
+    }
+
     public void setBitmap(final Bitmap bitmap)
     {
         if (bitmap != null && bitmap.isRecycled())
@@ -101,11 +104,6 @@ public class GPUImageTwoInputFilter extends GPUImageFilter
                 }
             }
         });
-    }
-
-    public Bitmap getBitmap()
-    {
-        return mBitmap;
     }
 
     public void recycleBitmap()

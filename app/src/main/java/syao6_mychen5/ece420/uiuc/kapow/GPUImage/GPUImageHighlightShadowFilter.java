@@ -18,8 +18,6 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 import android.opengl.GLES20;
 
-;
-
 /**
  * Adjusts the shadows and highlights of an image
  * shadows: Increase to lighten shadows, from 0.0 to 1.0, with 0.0 as the default.

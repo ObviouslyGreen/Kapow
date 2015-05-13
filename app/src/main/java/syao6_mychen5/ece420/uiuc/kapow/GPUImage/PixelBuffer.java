@@ -35,8 +35,6 @@ import static javax.microedition.khronos.egl.EGL10.EGL_WIDTH;
 import static javax.microedition.khronos.opengles.GL10.GL_RGBA;
 import static javax.microedition.khronos.opengles.GL10.GL_UNSIGNED_BYTE;
 
-;
-
 public class PixelBuffer
 {
     final static String TAG = "PixelBuffer";

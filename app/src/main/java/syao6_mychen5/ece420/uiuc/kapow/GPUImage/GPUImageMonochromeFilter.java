@@ -18,8 +18,6 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 import android.opengl.GLES20;
 
-;
-
 /**
  * Converts the image to a single-color version, based on the luminance of each pixel
  * intensity: The degree to which the specific color replaces the normal image color (0.0 - 1.0, with 1.0 as the default)

@@ -16,8 +16,6 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 
 public class GPUImageDirectionalSobelEdgeDetectionFilter extends GPUImage3x3TextureSamplingFilter
 {
@@ -61,8 +59,8 @@ public class GPUImageDirectionalSobelEdgeDetectionFilter extends GPUImage3x3Text
             "    gl_FragColor = vec4(gradientMagnitude, normalizedDirection.x, normalizedDirection.y, 1.0);\n" +
             "}";
 
-        public GPUImageDirectionalSobelEdgeDetectionFilter()
-        {
+    public GPUImageDirectionalSobelEdgeDetectionFilter()
+    {
         super(DIRECTIONAL_SOBEL_EDGE_DETECTION_FRAGMENT_SHADER);
     }
 }

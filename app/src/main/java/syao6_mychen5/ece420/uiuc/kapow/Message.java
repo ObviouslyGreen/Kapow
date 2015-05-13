@@ -4,9 +4,9 @@ package syao6_mychen5.ece420.uiuc.kapow;
  * Message is a Custom Object to encapsulate message information/fields
  *
  * @author Adil Soomro
- *
  */
-public class Message {
+public class Message
+{
     /**
      * The content of the message
      */
@@ -24,39 +24,54 @@ public class Message {
     /**
      * Constructor to make a Message object
      */
-    public Message(String message, boolean isMine) {
+    public Message(String message, boolean isMine)
+    {
         super();
         this.message = message;
         this.isMine = isMine;
         this.isStatusMessage = false;
     }
+
     /**
      * Constructor to make a status Message object
      * consider the parameters are swaped from default Message constructor,
-     *  not a good approach but have to go with it.
+     * not a good approach but have to go with it.
      */
-    public Message(boolean status, String message) {
+    public Message(boolean status, String message)
+    {
         super();
         this.message = message;
         this.isMine = false;
         this.isStatusMessage = status;
     }
-    public String getMessage() {
+
+    public String getMessage()
+    {
         return message;
     }
-    public void setMessage(String message) {
+
+    public void setMessage(String message)
+    {
         this.message = message;
     }
-    public boolean isMine() {
+
+    public boolean isMine()
+    {
         return isMine;
     }
-    public void setMine(boolean isMine) {
+
+    public void setMine(boolean isMine)
+    {
         this.isMine = isMine;
     }
-    public boolean isStatusMessage() {
+
+    public boolean isStatusMessage()
+    {
         return isStatusMessage;
     }
-    public void setStatusMessage(boolean isStatusMessage) {
+
+    public void setStatusMessage(boolean isStatusMessage)
+    {
         this.isStatusMessage = isStatusMessage;
     }
 

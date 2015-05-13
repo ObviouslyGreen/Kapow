@@ -40,15 +40,13 @@ import java.io.FileOutputStream;
 import java.nio.IntBuffer;
 import java.util.concurrent.Semaphore;
 
-;
-
 public class GPUImageView extends FrameLayout
 {
 
+    public Size mForceSize = null;
     private GLSurfaceView mGLSurfaceView;
     private GPUImage mGPUImage;
     private GPUImageFilter mFilter;
-    public Size mForceSize = null;
     private float mRatio = 0.0f;
 
     public GPUImageView(Context context)
@@ -140,6 +138,16 @@ public class GPUImageView extends FrameLayout
     }
 
     /**
+     * Get the current applied filter.
+     *
+     * @return the current filter
+     */
+    public GPUImageFilter getFilter()
+    {
+        return mFilter;
+    }
+
+    /**
      * Set the filter to be applied on the image.
      *
      * @param filter Filter that should be applied on the image.
@@ -149,16 +157,6 @@ public class GPUImageView extends FrameLayout
         mFilter = filter;
         mGPUImage.setFilter(filter);
         requestRender();
-    }
-
-    /**
-     * Get the current applied filter.
-     *
-     * @return the current filter
-     */
-    public GPUImageFilter getFilter()
-    {
-        return mFilter;
     }
 
     /**
@@ -379,6 +377,11 @@ public class GPUImageView extends FrameLayout
         mGLSurfaceView.onResume();
     }
 
+    public interface OnPictureSavedListener
+    {
+        void onPictureSaved(Uri uri);
+    }
+
     public static class Size
     {
         int width;
@@ -524,10 +527,5 @@ public class GPUImageView extends FrameLayout
                 e.printStackTrace();
             }
         }
-    }
-
-    public interface OnPictureSavedListener
-    {
-        void onPictureSaved(Uri uri);
     }
 }

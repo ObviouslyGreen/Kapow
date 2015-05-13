@@ -18,8 +18,6 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 import android.opengl.GLES20;
 
-;
-
 public class GPUImageMixBlendFilter extends GPUImageTwoInputFilter
 {
 

@@ -16,8 +16,6 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 public class GPUImageNativeLibrary
 {
     static

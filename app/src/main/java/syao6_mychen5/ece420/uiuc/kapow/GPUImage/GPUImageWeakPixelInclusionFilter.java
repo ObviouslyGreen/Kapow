@@ -16,8 +16,6 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 public class GPUImageWeakPixelInclusionFilter extends GPUImage3x3TextureSamplingFilter
 {
     public static final String WEAKPIXEL_FRAGMENT_SHADER = "" +
@@ -56,8 +54,8 @@ public class GPUImageWeakPixelInclusionFilter extends GPUImage3x3TextureSampling
             "gl_FragColor = vec4(vec3(sumTest * pixelTest), 1.0);\n" +
             "}\n";
 
-        public GPUImageWeakPixelInclusionFilter()
-        {
+    public GPUImageWeakPixelInclusionFilter()
+    {
         super(WEAKPIXEL_FRAGMENT_SHADER);
     }
 }

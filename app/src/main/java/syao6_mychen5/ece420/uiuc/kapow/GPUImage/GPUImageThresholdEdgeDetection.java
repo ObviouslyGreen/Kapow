@@ -1,7 +1,5 @@
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 /**
  * Applies sobel edge detection on the image.
  */

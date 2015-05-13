@@ -18,8 +18,6 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 import android.opengl.GLES20;
 
-;
-
 /**
  * Adjusts the individual RGB channels of an image
  * red: Normalized values by which each color channel is multiplied. The range is from 0.0 up, with 1.0 as the default.

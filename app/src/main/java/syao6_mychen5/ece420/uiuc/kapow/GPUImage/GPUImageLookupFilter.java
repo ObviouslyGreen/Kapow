@@ -16,8 +16,6 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 public class GPUImageLookupFilter extends GPUImageTwoInputFilter
 {
 
@@ -57,8 +55,8 @@ public class GPUImageLookupFilter extends GPUImageTwoInputFilter
             " }";
 
 
-        public GPUImageLookupFilter()
-        {
+    public GPUImageLookupFilter()
+    {
         super(LOOKUP_FRAGMENT_SHADER);
     }
 }

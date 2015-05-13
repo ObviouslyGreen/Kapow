@@ -18,8 +18,6 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 import android.opengl.GLES20;
 
-;
-
 /**
  * This uses Sobel edge detection to place a black border around objects,
  * and then it quantizes the colors present in the image to give a cartoon-like quality to the image.

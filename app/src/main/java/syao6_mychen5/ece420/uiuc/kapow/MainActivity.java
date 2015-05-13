@@ -118,21 +118,6 @@ public class MainActivity extends Activity implements FilterFragment.OnFragmentI
         }
     }
 
-    /**
-     * Slide menu item click listener
-     */
-    private class SlideMenuClickListener implements
-            ListView.OnItemClickListener
-    {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,
-                                long id)
-        {
-            // display view for selected nav drawer item
-            displayView(position);
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -246,5 +231,20 @@ public class MainActivity extends Activity implements FilterFragment.OnFragmentI
     public void onFragmentInteraction(Uri uri)
     {
         //you can leave it empty
+    }
+
+    /**
+     * Slide menu item click listener
+     */
+    private class SlideMenuClickListener implements
+            ListView.OnItemClickListener
+    {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position,
+                                long id)
+        {
+            // display view for selected nav drawer item
+            displayView(position);
+        }
     }
 }

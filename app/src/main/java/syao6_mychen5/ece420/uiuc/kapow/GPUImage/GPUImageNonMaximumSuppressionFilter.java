@@ -16,8 +16,6 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 public class GPUImageNonMaximumSuppressionFilter extends GPUImage3x3TextureSamplingFilter
 {
     public static final String NMS_FRAGMENT_SHADER = "" +
@@ -61,8 +59,8 @@ public class GPUImageNonMaximumSuppressionFilter extends GPUImage3x3TextureSampl
             "gl_FragColor = vec4((centerColor.rgb * step(maxValue, centerColor.r) * multiplier), 1.0);\n" +
             "}\n";
 
-        public GPUImageNonMaximumSuppressionFilter()
-        {
+    public GPUImageNonMaximumSuppressionFilter()
+    {
         super(NMS_FRAGMENT_SHADER);
     }
 }

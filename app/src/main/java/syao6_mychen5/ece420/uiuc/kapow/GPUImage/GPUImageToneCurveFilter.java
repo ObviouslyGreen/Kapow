@@ -27,8 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
-;
-
 public class GPUImageToneCurveFilter extends GPUImageFilter
 {
     public static final String TONE_CURVE_FRAGMENT_SHADER = "" +

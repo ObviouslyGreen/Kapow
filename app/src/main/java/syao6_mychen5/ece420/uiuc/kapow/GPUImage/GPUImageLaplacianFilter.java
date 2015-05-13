@@ -18,8 +18,6 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 import android.opengl.GLES20;
 
-;
-
 public class GPUImageLaplacianFilter extends GPUImage3x3TextureSamplingFilter
 {
     public static final String LAPLACIAN_FRAGMENT_SHADER = "" +

@@ -2,15 +2,11 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 import android.opengl.GLES20;
 
-;
-
 /**
  * Created by vashisthg 30/05/14.
  */
 public class GPUImageLevelsFilter extends GPUImageFilter
 {
-
-    private static final String LOGTAG = GPUImageLevelsFilter.class.getSimpleName();
 
     public static final String LEVELS_FRAGMET_SHADER =
 
@@ -29,7 +25,7 @@ public class GPUImageLevelsFilter extends GPUImageFilter
                     "     \n" +
                     "     gl_FragColor = vec4( mix(minOutput, maxOutput, pow(min(max(textureColor.rgb -levelMinimum, vec3(0.0)) / (levelMaximum - levelMinimum  ), vec3(1.0)), 1.0 /levelMiddle)) , textureColor.a);\n" +
                     " }\n";
-
+    private static final String LOGTAG = GPUImageLevelsFilter.class.getSimpleName();
     private int mMinLocation;
     private float[] mMin;
     private int mMidLocation;

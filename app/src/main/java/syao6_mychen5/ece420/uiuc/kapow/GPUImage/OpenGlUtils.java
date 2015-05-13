@@ -25,8 +25,6 @@ import android.util.Log;
 
 import java.nio.IntBuffer;
 
-;
-
 public class OpenGlUtils
 {
     public static final int NO_TEXTURE = -1;

@@ -16,8 +16,6 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 /**
  * For each pixel, this sets it to the maximum value of the red channel in a rectangular neighborhood extending
  * out dilationRadius pixels from the center.
@@ -260,8 +258,8 @@ public class GPUImageDilationFilter extends GPUImageTwoPassTextureSamplingFilter
                     "}\n";
 
 
-        public GPUImageDilationFilter()
-        {
+    public GPUImageDilationFilter()
+    {
         this(1);
     }
 
@@ -276,15 +274,15 @@ public class GPUImageDilationFilter extends GPUImageTwoPassTextureSamplingFilter
         this(getVertexShader(radius), getFragmentShader(radius));
     }
 
-        private GPUImageDilationFilter(String vertexShader, String fragmentShader)
-        {
+    private GPUImageDilationFilter(String vertexShader, String fragmentShader)
+    {
         super(vertexShader, fragmentShader, vertexShader, fragmentShader);
     }
 
-        private static String getVertexShader(int radius)
+    private static String getVertexShader(int radius)
+    {
+        switch (radius)
         {
-                switch (radius)
-                {
             case 0:
             case 1:
                 return VERTEX_SHADER_1;
@@ -297,10 +295,10 @@ public class GPUImageDilationFilter extends GPUImageTwoPassTextureSamplingFilter
         }
     }
 
-        private static String getFragmentShader(int radius)
+    private static String getFragmentShader(int radius)
+    {
+        switch (radius)
         {
-                switch (radius)
-                {
             case 0:
             case 1:
                 return FRAGMENT_SHADER_1;

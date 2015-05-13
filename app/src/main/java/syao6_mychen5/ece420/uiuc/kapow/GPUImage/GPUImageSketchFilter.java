@@ -16,8 +16,6 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 /**
  * Converts video to look like a sketch.
  * This is just the Sobel edge detection filter with the colors inverted.
@@ -59,8 +57,8 @@ public class GPUImageSketchFilter extends GPUImageFilterGroup
             "gl_FragColor = vec4(vec3(mag), 1.0);\n" +
             "}\n";
 
-        public GPUImageSketchFilter()
-        {
+    public GPUImageSketchFilter()
+    {
         super();
         addFilter(new GPUImageGrayscaleFilter());
         addFilter(new GPUImage3x3TextureSamplingFilter(SKETCH_FRAGMENT_SHADER));

@@ -16,8 +16,6 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 /**
  * A more generalized 9x9 Gaussian blur filter
  * blurSize value ranging from 0.0 on up, with a default of 1.0

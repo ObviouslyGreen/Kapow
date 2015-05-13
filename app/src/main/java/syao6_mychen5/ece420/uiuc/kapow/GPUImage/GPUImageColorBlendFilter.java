@@ -62,8 +62,8 @@ public class GPUImageColorBlendFilter extends GPUImageTwoInputFilter
             "     gl_FragColor = vec4(baseColor.rgb * (1.0 - overlayColor.a) + setlum(overlayColor.rgb, lum(baseColor.rgb)) * overlayColor.a, baseColor.a);\n" +
             " }";
 
-        public GPUImageColorBlendFilter()
-        {
+    public GPUImageColorBlendFilter()
+    {
         super(COLOR_BLEND_FRAGMENT_SHADER);
     }
 }

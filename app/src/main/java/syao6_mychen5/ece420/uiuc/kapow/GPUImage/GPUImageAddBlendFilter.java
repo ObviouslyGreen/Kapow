@@ -55,8 +55,8 @@ public class GPUImageAddBlendFilter extends GPUImageTwoInputFilter
             "   gl_FragColor = vec4(r, g, b, a);\n" +
             " }";
 
-        public GPUImageAddBlendFilter()
-        {
+    public GPUImageAddBlendFilter()
+    {
         super(ADD_BLEND_FRAGMENT_SHADER);
     }
 }

@@ -30,8 +30,6 @@ import syao6_mychen5.ece420.uiuc.kapow.GPUImage.util.TextureRotationUtil;
 import static syao6_mychen5.ece420.uiuc.kapow.GPUImage.GPUImageRenderer.CUBE;
 import static syao6_mychen5.ece420.uiuc.kapow.GPUImage.util.TextureRotationUtil.TEXTURE_NO_ROTATION;
 
-;
-
 /**
  * Resembles a filter that consists of multiple filters applied after each
  * other.
@@ -39,14 +37,13 @@ import static syao6_mychen5.ece420.uiuc.kapow.GPUImage.util.TextureRotationUtil.
 public class GPUImageFilterGroup extends GPUImageFilter
 {
 
+    private final FloatBuffer mGLCubeBuffer;
+    private final FloatBuffer mGLTextureBuffer;
+    private final FloatBuffer mGLTextureFlipBuffer;
     protected List<GPUImageFilter> mFilters;
     protected List<GPUImageFilter> mMergedFilters;
     private int[] mFrameBuffers;
     private int[] mFrameBufferTextures;
-
-    private final FloatBuffer mGLCubeBuffer;
-    private final FloatBuffer mGLTextureBuffer;
-    private final FloatBuffer mGLTextureFlipBuffer;
 
     /**
      * Instantiates a new GPUImageFilterGroup with no filters.

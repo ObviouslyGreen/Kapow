@@ -6,9 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,14 +17,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
 import com.thuytrinh.android.collageviews.MultiTouchListener;
 
 import java.io.File;
@@ -52,18 +48,22 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
     private static final int SELECT_PICTURE = 1;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    static String sender;
     ArrayList<Message> messages;
     EditText textl, textr;
-    static String sender;
-    private String imageUrl;
     int ButtonType = -1;
     int fontType = 0;
-
+    private String imageUrl;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    public BubbleFragment()
+    {
+        // Required empty public constructor
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -84,9 +84,50 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
         return fragment;
     }
 
-    public BubbleFragment()
+    public static Bitmap loadBitmapFromView(Context context, ViewGroup v)
     {
-        // Required empty public constructor
+
+       /* Toast.makeText(context,
+                v.getMeasuredHeight() + "::::::::::::" + v.getMeasuredWidth(),
+                Toast.LENGTH_LONG).show();*/
+
+        if (v.getMeasuredHeight() > 0)
+        {
+
+            v.measure(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+            Bitmap b = Bitmap.createBitmap(v.getWidth(), v.getHeight(),
+                    Bitmap.Config.ARGB_8888);
+
+            v.draw(new Canvas(b));
+
+            return b;
+
+        }
+
+        return null;
+        /*img.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        img.layout(0, 0, img.getMeasuredWidth(), img.getMeasuredHeight());
+        img.setDrawingCacheEnabled(true);
+        img.buildDrawingCache(true);
+        Bitmap bmp = Bitmap.createBitmap(img.getDrawingCache());
+        int width = bmp.getWidth();
+        int height = bmp.getHeight();
+        Bitmap b = bmp.copy(Bitmap.Config.ARGB_8888, true);
+        b.setHasAlpha(true);
+        int[] pixels = new int[width * height];
+        bmp.getPixels(pixels, 0, width, 0, 0, width, height);
+
+        for (int i = 0; i < width * height; i++) {
+            if (pixels[i] == 0xffff0000) {
+                pixels[i] = Color.alpha(Color.TRANSPARENT);
+            }
+        }
+
+        b.setPixels(pixels, 0, width, 0, 0, width, height);
+
+        return b;*/
     }
 
     @Override
@@ -100,6 +141,8 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    // TODO: Rename method, update argument and hook method into UI event
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -110,7 +153,7 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
         textl.setVisibility(View.GONE);
         textr = (EditText) v.findViewById(R.id.textright);
         textr.setVisibility(View.GONE);
-        ((Button) v.findViewById(R.id.file_input_button))
+        v.findViewById(R.id.file_input_button)
                 .setOnClickListener(new View.OnClickListener()
                                     {
                                         public void onClick(View view)
@@ -149,16 +192,16 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
         });
 
 
-        ((Button) v.findViewById(R.id.done_button))
-                .setOnClickListener((View.OnClickListener) this);
-        ((Button) v.findViewById(R.id.save_panel_button))
-                .setOnClickListener((View.OnClickListener) this);
-        ((Button) v.findViewById(R.id.text_left_button))
-                .setOnClickListener((View.OnClickListener) this);
-        ((Button) v.findViewById(R.id.text_right_button))
-                .setOnClickListener((View.OnClickListener) this);
-        ((Button) v.findViewById(R.id.change_font_button))
-                .setOnClickListener((View.OnClickListener) this);
+        v.findViewById(R.id.done_button)
+                .setOnClickListener(this);
+        v.findViewById(R.id.save_panel_button)
+                .setOnClickListener(this);
+        v.findViewById(R.id.text_left_button)
+                .setOnClickListener(this);
+        v.findViewById(R.id.text_right_button)
+                .setOnClickListener(this);
+        v.findViewById(R.id.change_font_button)
+                .setOnClickListener(this);
         /*messages = new ArrayList<Message>();
         messages.add(new Message("testyoyoswag.", true));
         adapter = new AwesomeAdapter(MyApplication.getAppContext(), messages);
@@ -166,8 +209,6 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
         listV.setAdapter(adapter);*/
         return v;
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
 
     public void onButtonPressed(Uri uri)
     {
@@ -201,7 +242,8 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View view)
     {
-        switch(view.getId()){
+        switch (view.getId())
+        {
             case R.id.done_button:
                 try
                 {
@@ -221,7 +263,7 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
                 }
                 break;
             case R.id.text_left_button:
-                if(ButtonType != 0)
+                if (ButtonType != 0)
                 {
                     textl.setVisibility(View.VISIBLE);
                     textr.setVisibility(View.GONE);
@@ -229,7 +271,7 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
                 }
                 break;
             case R.id.text_right_button:
-                if(ButtonType != 1)
+                if (ButtonType != 1)
                 {
                     textr.setVisibility(View.VISIBLE);
                     textl.setVisibility(View.GONE);
@@ -248,10 +290,11 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
     {
         Typeface type = Typeface.SERIF;
         fontType++;
-        if(fontType > 3)
+        if (fontType > 3)
             fontType = 0;
 
-        switch(fontType){
+        switch (fontType)
+        {
             case 0:
                 type = Typeface.SANS_SERIF;
                 break;
@@ -282,20 +325,25 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
         File sd = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
         File directory = new File(sd, "Kapow");
-        try {
+        try
+        {
             directory.mkdirs();
-        } catch(Exception e) {}
-        file = new File(sd, "Kapow/"+"ComicPanel.png");
-        while (file.exists()) {
+        } catch (Exception e)
+        {
+        }
+        file = new File(sd, "Kapow/" + "ComicPanel.png");
+        while (file.exists())
+        {
             counter++;
             file = new File(sd, "Kapow/" + "ComicPanel" + "(" + counter + ").png");
         }
-        try{
+        try
+        {
             fOut = new FileOutputStream(file);
             bmpout.compress(Bitmap.CompressFormat.PNG, 100, fOut);
             fOut.flush();
             fOut.close();
-            Log.w("myAPP","SWAG");
+            Log.w("myAPP", "SWAG");
             path = MediaStore.Images.Media.insertImage(MyApplication.getAppContext().getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
             Toast.makeText(MyApplication.getAppContext(), "Save Successful", Toast.LENGTH_SHORT).show();
         } catch (FileNotFoundException e)
@@ -323,10 +371,12 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
     {
         ImageView img;
         img = (ImageView) getView().findViewById(R.id.display_image);
-        getView().findViewById(R.id.collageBgView).setOnTouchListener(new View.OnTouchListener() {
+        getView().findViewById(R.id.collageBgView).setOnTouchListener(new View.OnTouchListener()
+        {
 
             @Override
-            public boolean onTouch(View view, MotionEvent event) {
+            public boolean onTouch(View view, MotionEvent event)
+            {
                 return true;
             }
         });
@@ -337,19 +387,19 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
     private void finishBubble(View v) throws IOException
     {
         EditText et;
-        if(ButtonType == 0)
+        if (ButtonType == 0)
         {
             TextView tv = (TextView) getView().findViewById(R.id.textleft);
             tv.setAlpha(0);
             et = (EditText) getView().findViewById(R.id.textleft);
-        }
-        else if(ButtonType == 1){
+        } else if (ButtonType == 1)
+        {
             TextView tv = (TextView) getView().findViewById(R.id.textright);
             tv.setAlpha(0);
             et = (EditText) getView().findViewById(R.id.textright);
 
-        }
-        else{
+        } else
+        {
             Toast.makeText(MyApplication.getAppContext(), "No Speech Bubble Made", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -359,49 +409,6 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
         img.setOnTouchListener(new MultiTouchListener());
     }
 
-    public static Bitmap loadBitmapFromView(Context context, ViewGroup v) {
-
-       /* Toast.makeText(context,
-                v.getMeasuredHeight() + "::::::::::::" + v.getMeasuredWidth(),
-                Toast.LENGTH_LONG).show();*/
-
-        if (v.getMeasuredHeight() > 0) {
-
-            v.measure(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-            Bitmap b = Bitmap.createBitmap(v.getWidth(), v.getHeight(),
-                    Bitmap.Config.ARGB_8888);
-
-            v.draw(new Canvas(b));
-
-            return b;
-
-        }
-
-        return null;
-        /*img.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        img.layout(0, 0, img.getMeasuredWidth(), img.getMeasuredHeight());
-        img.setDrawingCacheEnabled(true);
-        img.buildDrawingCache(true);
-        Bitmap bmp = Bitmap.createBitmap(img.getDrawingCache());
-        int width = bmp.getWidth();
-        int height = bmp.getHeight();
-        Bitmap b = bmp.copy(Bitmap.Config.ARGB_8888, true);
-        b.setHasAlpha(true);
-        int[] pixels = new int[width * height];
-        bmp.getPixels(pixels, 0, width, 0, 0, width, height);
-
-        for (int i = 0; i < width * height; i++) {
-            if (pixels[i] == 0xffff0000) {
-                pixels[i] = Color.alpha(Color.TRANSPARENT);
-            }
-        }
-
-        b.setPixels(pixels, 0, width, 0, 0, width, height);
-
-        return b;*/
-    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -415,6 +422,6 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
     public interface OnFragmentInteractionListener
     {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(Uri uri);
     }
 }

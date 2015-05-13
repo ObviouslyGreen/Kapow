@@ -41,8 +41,6 @@ import syao6_mychen5.ece420.uiuc.kapow.GPUImage.util.TextureRotationUtil;
 
 import static syao6_mychen5.ece420.uiuc.kapow.GPUImage.util.TextureRotationUtil.TEXTURE_NO_ROTATION;
 
-;
-
 @TargetApi(11)
 public class GPUImageRenderer implements Renderer, PreviewCallback
 {
@@ -53,25 +51,20 @@ public class GPUImageRenderer implements Renderer, PreviewCallback
             -1.0f, 1.0f,
             1.0f, 1.0f,
     };
-
-    private GPUImageFilter mFilter;
-
     public final Object mSurfaceChangedWaiter = new Object();
-
-    private int mGLTextureId = NO_IMAGE;
-    private SurfaceTexture mSurfaceTexture = null;
     private final FloatBuffer mGLCubeBuffer;
     private final FloatBuffer mGLTextureBuffer;
+    private final Queue<Runnable> mRunOnDraw;
+    private final Queue<Runnable> mRunOnDrawEnd;
+    private GPUImageFilter mFilter;
+    private int mGLTextureId = NO_IMAGE;
+    private SurfaceTexture mSurfaceTexture = null;
     private IntBuffer mGLRgbBuffer;
-
     private int mOutputWidth;
     private int mOutputHeight;
     private int mImageWidth;
     private int mImageHeight;
     private int mAddedPadding;
-
-    private final Queue<Runnable> mRunOnDraw;
-    private final Queue<Runnable> mRunOnDrawEnd;
     private Rotation mRotation;
     private boolean mFlipHorizontal;
     private boolean mFlipVertical;
@@ -350,12 +343,6 @@ public class GPUImageRenderer implements Renderer, PreviewCallback
         setRotation(rotation, flipVertical, flipHorizontal);
     }
 
-    public void setRotation(final Rotation rotation)
-    {
-        mRotation = rotation;
-        adjustImageScaling();
-    }
-
     public void setRotation(final Rotation rotation,
                             final boolean flipHorizontal, final boolean flipVertical)
     {
@@ -367,6 +354,12 @@ public class GPUImageRenderer implements Renderer, PreviewCallback
     public Rotation getRotation()
     {
         return mRotation;
+    }
+
+    public void setRotation(final Rotation rotation)
+    {
+        mRotation = rotation;
+        adjustImageScaling();
     }
 
     public boolean isFlippedHorizontally()

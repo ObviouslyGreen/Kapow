@@ -18,8 +18,6 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 import android.opengl.GLES20;
 
-;
-
 /**
  * gamma value ranges from 0.0 to 3.0, with 1.0 as the normal level
  */

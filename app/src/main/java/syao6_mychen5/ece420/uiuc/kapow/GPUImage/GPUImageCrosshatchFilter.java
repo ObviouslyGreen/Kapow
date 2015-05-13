@@ -18,8 +18,6 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 import android.opengl.GLES20;
 
-;
-
 /**
  * crossHatchSpacing: The fractional width of the image to use as the spacing for the crosshatch. The default is 0.03.
  * lineWidth: A relative width for the crosshatch lines. The default is 0.003.

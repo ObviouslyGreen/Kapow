@@ -45,14 +45,14 @@
             android:text="File Input"
             android:id="@+id/file_input_button"
             android:layout_alignTop="@+id/camera_input_button"/>
-            />
+        />
 
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1"/>
 
-         <Button
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Camera Input"

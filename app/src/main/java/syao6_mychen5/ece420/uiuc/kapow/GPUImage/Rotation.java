@@ -16,33 +16,9 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 public enum Rotation
 {
     NORMAL, ROTATION_90, ROTATION_180, ROTATION_270;
-
-    /**
-     * Retrieves the int representation of the Rotation.
-     *
-     * @return 0, 90, 180 or 270
-     */
-    public int asInt()
-    {
-        switch (this)
-        {
-            case NORMAL:
-                return 0;
-            case ROTATION_90:
-                return 90;
-            case ROTATION_180:
-                return 180;
-            case ROTATION_270:
-                return 270;
-            default:
-                throw new IllegalStateException("Unknown Rotation!");
-        }
-    }
 
     /**
      * Create a Rotation from an integer. Needs to be either 0, 90, 180 or 270.
@@ -67,6 +43,28 @@ public enum Rotation
             default:
                 throw new IllegalStateException(
                         rotation + " is an unknown rotation. Needs to be either 0, 90, 180 or 270!");
+        }
+    }
+
+    /**
+     * Retrieves the int representation of the Rotation.
+     *
+     * @return 0, 90, 180 or 270
+     */
+    public int asInt()
+    {
+        switch (this)
+        {
+            case NORMAL:
+                return 0;
+            case ROTATION_90:
+                return 90;
+            case ROTATION_180:
+                return 180;
+            case ROTATION_270:
+                return 270;
+            default:
+                throw new IllegalStateException("Unknown Rotation!");
         }
     }
 }

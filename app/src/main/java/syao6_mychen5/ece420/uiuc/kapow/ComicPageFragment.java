@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -52,6 +51,11 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
 
     private OnFragmentInteractionListener mListener;
 
+    public ComicPageFragment()
+    {
+        // Required empty public constructor
+    }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -71,9 +75,28 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
         return fragment;
     }
 
-    public ComicPageFragment()
+    public static Bitmap loadBitmapFromView(Context context, ViewGroup v)
     {
-        // Required empty public constructor
+
+       /* Toast.makeText(context,
+                v.getMeasuredHeight() + "::::::::::::" + v.getMeasuredWidth(),
+                Toast.LENGTH_LONG).show();*/
+        if (v.getMeasuredHeight() > 0)
+        {
+
+            v.measure(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+            Bitmap b = Bitmap.createBitmap(v.getWidth(), v.getHeight(),
+                    Bitmap.Config.ARGB_8888);
+
+            v.draw(new Canvas(b));
+
+            return b;
+
+        }
+
+        return null;
+
     }
 
     @Override
@@ -93,7 +116,7 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
     {
         View v = inflater.inflate(R.layout.fragment_page, container, false);
         // Creat button for file input
-        ((Button) v.findViewById(R.id.file_input_button))
+        v.findViewById(R.id.file_input_button)
                 .setOnClickListener(new View.OnClickListener()
                                     {
                                         public void onClick(View view)
@@ -106,8 +129,8 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
                                         }
                                     }
                 );
-        ((Button) v.findViewById(R.id.save_button))
-                .setOnClickListener((View.OnClickListener) this);
+        v.findViewById(R.id.save_button)
+                .setOnClickListener(this);
 
         // Inflate the layout for this fragment
         return v;
@@ -146,7 +169,8 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View view)
     {
-        switch(view.getId()){
+        switch (view.getId())
+        {
             case R.id.save_button:
                 try
                 {
@@ -161,22 +185,6 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener
-    {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (resultCode == Activity.RESULT_OK)
@@ -186,7 +194,7 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
                 Uri selectedImageUri = data.getData();
                 Bitmap bitmap = null;
                 displayPhoto(selectedImageUri);
-                if(counter == 6)
+                if (counter == 6)
                     counter = 1;
                 else
                     counter++;
@@ -198,7 +206,8 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
     {
         ImageView img;
         // Only allow up to six images
-        switch (counter){
+        switch (counter)
+        {
             case 1:
                 img = (ImageView) getView().findViewById(R.id.display_image_1);
                 break;
@@ -221,10 +230,12 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
                 img = (ImageView) getView().findViewById(R.id.display_image);
                 break;
         }
-        getView().findViewById(R.id.collageBgView).setOnTouchListener(new View.OnTouchListener() {
+        getView().findViewById(R.id.collageBgView).setOnTouchListener(new View.OnTouchListener()
+        {
 
             @Override
-            public boolean onTouch(View view, MotionEvent event) {
+            public boolean onTouch(View view, MotionEvent event)
+            {
                 return true;
             }
         });
@@ -243,15 +254,20 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
         File sd = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
         File directory = new File(sd, "Kapow/Pages");
-        try {
+        try
+        {
             directory.mkdirs();
-        } catch(Exception e) {}
+        } catch (Exception e)
+        {
+        }
         file = new File(sd, "Kapow/Pages" + "ComicPage.png");
-        while (file.exists()) {
+        while (file.exists())
+        {
             counter++;
             file = new File(sd, "Kapow/Pages" + "ComicPage" + "(" + counter + ").png");
         }
-        try{
+        try
+        {
             fOut = new FileOutputStream(file);
             bmpout.compress(Bitmap.CompressFormat.PNG, 100, fOut);
             fOut.flush();
@@ -266,25 +282,19 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    public static Bitmap loadBitmapFromView(Context context, ViewGroup v) {
-
-       /* Toast.makeText(context,
-                v.getMeasuredHeight() + "::::::::::::" + v.getMeasuredWidth(),
-                Toast.LENGTH_LONG).show();*/
-        if (v.getMeasuredHeight() > 0) {
-
-            v.measure(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-            Bitmap b = Bitmap.createBitmap(v.getWidth(), v.getHeight(),
-                    Bitmap.Config.ARGB_8888);
-
-            v.draw(new Canvas(b));
-
-            return b;
-
-        }
-
-        return null;
-
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener
+    {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 }

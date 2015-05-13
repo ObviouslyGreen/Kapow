@@ -19,8 +19,6 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 import android.graphics.PointF;
 import android.opengl.GLES20;
 
-;
-
 /**
  * Creates a swirl distortion on the image.
  */

@@ -16,8 +16,6 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 /**
  * This equation is a simplification of the general blending equation. It assumes the destination color is opaque, and therefore drops the destination color's alpha term.
  * <p/>
@@ -58,8 +56,8 @@ public class GPUImageNormalBlendFilter extends GPUImageTwoInputFilter
             "     gl_FragColor = outputColor;\n" +
             " }";
 
-        public GPUImageNormalBlendFilter()
-        {
+    public GPUImageNormalBlendFilter()
+    {
         super(NORMAL_BLEND_FRAGMENT_SHADER);
     }
 }

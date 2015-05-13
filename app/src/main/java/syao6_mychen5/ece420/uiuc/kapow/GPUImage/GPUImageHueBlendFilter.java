@@ -16,8 +16,6 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 public class GPUImageHueBlendFilter extends GPUImageTwoInputFilter
 {
     public static final String HUE_BLEND_FRAGMENT_SHADER = "varying highp vec2 textureCoordinate;\n" +
@@ -113,8 +111,8 @@ public class GPUImageHueBlendFilter extends GPUImageTwoInputFilter
             "     gl_FragColor = vec4(baseColor.rgb * (1.0 - overlayColor.a) + setlum(setsat(overlayColor.rgb, sat(baseColor.rgb)), lum(baseColor.rgb)) * overlayColor.a, baseColor.a);\n" +
             " }";
 
-        public GPUImageHueBlendFilter()
-        {
+    public GPUImageHueBlendFilter()
+    {
         super(HUE_BLEND_FRAGMENT_SHADER);
     }
 }

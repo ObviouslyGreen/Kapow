@@ -16,8 +16,6 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 /**
  * Applies an emboss effect to the image.<br>
  * <br>
@@ -45,6 +43,11 @@ public class GPUImageEmbossFilter extends GPUImage3x3ConvolutionFilter
         setIntensity(mIntensity);
     }
 
+    public float getIntensity()
+    {
+        return mIntensity;
+    }
+
     public void setIntensity(final float intensity)
     {
         mIntensity = intensity;
@@ -53,10 +56,5 @@ public class GPUImageEmbossFilter extends GPUImage3x3ConvolutionFilter
                 -intensity, 1.0f, intensity,
                 0.0f, intensity, intensity * 2.0f,
         });
-    }
-
-    public float getIntensity()
-    {
-        return mIntensity;
     }
 }

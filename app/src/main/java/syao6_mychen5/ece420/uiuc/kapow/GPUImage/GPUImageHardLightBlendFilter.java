@@ -16,8 +16,6 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 public class GPUImageHardLightBlendFilter extends GPUImageTwoInputFilter
 {
     public static final String HARD_LIGHT_BLEND_FRAGMENT_SHADER = "varying highp vec2 textureCoordinate;\n" +
@@ -57,8 +55,8 @@ public class GPUImageHardLightBlendFilter extends GPUImageTwoInputFilter
             "     gl_FragColor = vec4(ra, ga, ba, 1.0);\n" +
             " }";
 
-        public GPUImageHardLightBlendFilter()
-        {
+    public GPUImageHardLightBlendFilter()
+    {
         super(HARD_LIGHT_BLEND_FRAGMENT_SHADER);
     }
 }

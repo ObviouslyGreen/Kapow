@@ -78,6 +78,39 @@ public class GPUImage
     }
 
     /**
+     * Gets the images for multiple filters on a image. This can be used to
+     * quickly get thumbnail images for filters. <br>
+     * Whenever a new Bitmap is ready, the listener will be called with the
+     * bitmap. The order of the calls to the listener will be the same as the
+     * filter order.
+     *
+     * @param bitmap   the bitmap on which the filters will be applied
+     * @param filters  the filters which will be applied on the bitmap
+     * @param listener the listener on which the results will be notified
+     */
+    public static void getBitmapForMultipleFilters(final Bitmap bitmap,
+                                                   final List<GPUImageFilter> filters, final ResponseListener<Bitmap> listener)
+    {
+        if (filters.isEmpty())
+        {
+            return;
+        }
+        GPUImageRenderer renderer = new GPUImageRenderer(filters.get(0));
+        renderer.setImageBitmap(bitmap, false);
+        PixelBuffer buffer = new PixelBuffer(bitmap.getWidth(), bitmap.getHeight());
+        buffer.setRenderer(renderer);
+
+        for (GPUImageFilter filter : filters)
+        {
+            renderer.setFilter(filter);
+            listener.response(buffer.getBitmap());
+            filter.destroy();
+        }
+        renderer.deleteImage();
+        buffer.destroy();
+    }
+
+    /**
      * Checks if OpenGL ES 2.0 is supported on the current device.
      *
      * @param context the context
@@ -338,39 +371,6 @@ public class GPUImage
     }
 
     /**
-     * Gets the images for multiple filters on a image. This can be used to
-     * quickly get thumbnail images for filters. <br>
-     * Whenever a new Bitmap is ready, the listener will be called with the
-     * bitmap. The order of the calls to the listener will be the same as the
-     * filter order.
-     *
-     * @param bitmap   the bitmap on which the filters will be applied
-     * @param filters  the filters which will be applied on the bitmap
-     * @param listener the listener on which the results will be notified
-     */
-    public static void getBitmapForMultipleFilters(final Bitmap bitmap,
-                                                   final List<GPUImageFilter> filters, final ResponseListener<Bitmap> listener)
-    {
-        if (filters.isEmpty())
-        {
-            return;
-        }
-        GPUImageRenderer renderer = new GPUImageRenderer(filters.get(0));
-        renderer.setImageBitmap(bitmap, false);
-        PixelBuffer buffer = new PixelBuffer(bitmap.getWidth(), bitmap.getHeight());
-        buffer.setRenderer(renderer);
-
-        for (GPUImageFilter filter : filters)
-        {
-            renderer.setFilter(filter);
-            listener.response(buffer.getBitmap());
-            filter.destroy();
-        }
-        renderer.deleteImage();
-        buffer.destroy();
-    }
-
-    /**
      * Deprecated: Please use
      * {@link GPUImageView#saveToPictures(String, String, syao6_mychen5.ece420.uiuc.kapow.GPUImage.GPUImage;
      * <p/>
@@ -461,6 +461,21 @@ public class GPUImage
         }
     }
 
+    public enum ScaleType
+    {
+        CENTER_INSIDE, CENTER_CROP
+    }
+
+    public interface OnPictureSavedListener
+    {
+        void onPictureSaved(Uri uri);
+    }
+
+    public interface ResponseListener<T>
+    {
+        void response(T item);
+    }
+
     @Deprecated
     private class SaveTask extends AsyncTask<Void, Void, Void>
     {
@@ -526,11 +541,6 @@ public class GPUImage
                 e.printStackTrace();
             }
         }
-    }
-
-    public interface OnPictureSavedListener
-    {
-        void onPictureSaved(Uri uri);
     }
 
     private class LoadImageUriTask extends LoadImageTask
@@ -793,15 +803,5 @@ public class GPUImage
         }
 
         protected abstract int getImageOrientation() throws IOException;
-    }
-
-    public interface ResponseListener<T>
-    {
-        void response(T item);
-    }
-
-    public enum ScaleType
-    {
-        CENTER_INSIDE, CENTER_CROP
     }
 }

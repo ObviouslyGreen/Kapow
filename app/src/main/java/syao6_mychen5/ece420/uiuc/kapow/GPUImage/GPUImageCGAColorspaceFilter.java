@@ -63,8 +63,8 @@ public class GPUImageCGAColorspaceFilter extends GPUImageFilter
             "gl_FragColor = finalColor;\n" +
             "}\n";
 
-        public GPUImageCGAColorspaceFilter()
-        {
+    public GPUImageCGAColorspaceFilter()
+    {
         super(NO_FILTER_VERTEX_SHADER, CGACOLORSPACE_FRAGMENT_SHADER);
     }
 }

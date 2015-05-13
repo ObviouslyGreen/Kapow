@@ -16,8 +16,6 @@
 
 package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
-;
-
 public class GPUImageDivideBlendFilter extends GPUImageTwoInputFilter
 {
     public static final String DIVIDE_BLEND_FRAGMENT_SHADER = "varying highp vec2 textureCoordinate;\n" +
@@ -56,8 +54,8 @@ public class GPUImageDivideBlendFilter extends GPUImageTwoInputFilter
             "   gl_FragColor = vec4(ra, ga, ba, a);\n" +
             " }";
 
-        public GPUImageDivideBlendFilter()
-        {
+    public GPUImageDivideBlendFilter()
+    {
         super(DIVIDE_BLEND_FRAGMENT_SHADER);
     }
 }

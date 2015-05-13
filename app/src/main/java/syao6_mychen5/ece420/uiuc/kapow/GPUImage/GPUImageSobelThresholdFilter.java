@@ -2,8 +2,6 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 import android.opengl.GLES20;
 
-;
-
 public class GPUImageSobelThresholdFilter extends
         GPUImage3x3TextureSamplingFilter
 {

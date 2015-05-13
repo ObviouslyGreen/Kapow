@@ -18,8 +18,6 @@ package syao6_mychen5.ece420.uiuc.kapow.GPUImage;
 
 import android.opengl.GLES20;
 
-;
-
 /**
  * exposure: The adjusted exposure (-10.0 - 10.0, with 0.0 as the default)
  */
