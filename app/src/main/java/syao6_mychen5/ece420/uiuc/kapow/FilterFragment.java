@@ -131,6 +131,8 @@ public class FilterFragment extends Fragment
                              Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.fragment_filter, container, false);
+
+        // Create button for file input, launches file explorer/gallery
         ((Button) v.findViewById(R.id.file_input_button))
                 .setOnClickListener(new View.OnClickListener()
                                     {
@@ -145,6 +147,7 @@ public class FilterFragment extends Fragment
                                     }
                 );
 
+        // Create button for camera input
         ((Button) v.findViewById(R.id.camera_input_button))
                 .setOnClickListener(new View.OnClickListener()
                                     {
@@ -169,6 +172,7 @@ public class FilterFragment extends Fragment
                                     }
                 );
 
+        // Create spinner to choose various filters
         Spinner spinner = (Spinner) v.findViewById(R.id.filter_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(),
@@ -260,12 +264,15 @@ public class FilterFragment extends Fragment
 
     public Uri chooseFilter(Bitmap bitmap)
     {
+        // FUNCTION RUNS IN BACKGROUND THREAD
+        // UI changes will crash the app
         Uri filteredUri = null;
         //Toast.makeText(MyApplication.getAppContext(), "Filtering Started!", Toast.LENGTH_LONG).show();
         try
         {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
 
+            // Use current filter from spinner and apply to input
             if (currFilter.equals("Mean Shift + Toon Filter"))
             {
                 double sp, sr;
@@ -328,7 +335,6 @@ public class FilterFragment extends Fragment
         Mat dst = new Mat();
         Imgproc.cvtColor(temp, dst, Imgproc.COLOR_BGR2Luv);
 
-        //bilateralFilter(dst, out, 7, 180, 180);
         TermCriteria termcrit = new TermCriteria(TermCriteria.COUNT + TermCriteria.EPS, 5, 1);
         pyrMeanShiftFiltering(dst, out, sp, sr, maxLevel, termcrit);
 
@@ -428,6 +434,7 @@ public class FilterFragment extends Fragment
         } catch (Exception e)
         {
         }
+        // Saves on sd card, Pictures/Kapow
         file = new File(sd, "Kapow/" + "output.png");
         while (file.exists())
         {
@@ -451,6 +458,7 @@ public class FilterFragment extends Fragment
         return Uri.parse(path);
     }
 
+    // helper function to check if android device has camera
     private boolean hasCameraApp(String action)
     {
         final PackageManager packageManager = getActivity().getPackageManager();
@@ -460,6 +468,7 @@ public class FilterFragment extends Fragment
         return list.size() > 0;
     }
 
+    // AsyncTask to run the filtering algorithm to avoid blocking the UI thread
     private class FileInputTask extends AsyncTask<Uri, Void, Uri>
     {
         @Override

@@ -21,31 +21,24 @@ import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfImportedPage;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ViewFragment.OnFragmentInteractionListener} interface
+ * {@link ComicFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ViewFragment#newInstance} factory method to
+ * Use the {@link ComicFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ViewFragment extends Fragment
+public class ComicFragment extends Fragment
 {
 
     private static final int SELECT_PAGE = 1;
@@ -68,12 +61,12 @@ public class ViewFragment extends Fragment
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ViewFragment.
+     * @return A new instance of fragment ComicFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ViewFragment newInstance(String param1, String param2)
+    public static ComicFragment newInstance(String param1, String param2)
     {
-        ViewFragment fragment = new ViewFragment();
+        ComicFragment fragment = new ComicFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -81,7 +74,7 @@ public class ViewFragment extends Fragment
         return fragment;
     }
 
-    public ViewFragment()
+    public ComicFragment()
     {
         // Required empty public constructor
     }
@@ -101,6 +94,7 @@ public class ViewFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        // Button to add a page to comic book
         View v = inflater.inflate(R.layout.fragment_comic, container, false);
         ((Button) v.findViewById(R.id.add_page_button))
                 .setOnClickListener(new View.OnClickListener()
@@ -116,6 +110,7 @@ public class ViewFragment extends Fragment
                                     }
                 );
 
+        // Button to create the pdf
         ((Button) v.findViewById(R.id.create_comic_button))
                 .setOnClickListener(new View.OnClickListener()
                                     {
@@ -128,6 +123,7 @@ public class ViewFragment extends Fragment
                                             pd.show();
                                             String comicTitle = ((EditText) getView().findViewById(R.id.comic_book_title)).getText().toString();
 
+                                            // Create the PDF
                                             File sd = Environment.getExternalStoragePublicDirectory(
                                                     Environment.DIRECTORY_PICTURES);
                                             File directory = new File(sd, "Kapow/Comics");
@@ -189,6 +185,7 @@ public class ViewFragment extends Fragment
         {
             if (requestCode == SELECT_PAGE)
             {
+                // Add file path of image to pages arraylist
                 Uri selectedImageUri = data.getData();
                 pages.add(getImagePath(selectedImageUri));
                 displayPhoto(selectedImageUri);

@@ -24,7 +24,7 @@ import syao6_mychen5.ece420.uiuc.kapow.model.NavDrawerItem;
 
 public class MainActivity extends Activity implements FilterFragment.OnFragmentInteractionListener,
         ComicPageFragment.OnFragmentInteractionListener, BubbleFragment.OnFragmentInteractionListener,
-        ViewFragment.OnFragmentInteractionListener
+        ComicFragment.OnFragmentInteractionListener
 {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -192,7 +192,7 @@ public class MainActivity extends Activity implements FilterFragment.OnFragmentI
                 fragment = new ComicPageFragment();
                 break;
             case 3:
-                fragment = new ViewFragment();
+                fragment = new ComicFragment();
             default:
                 break;
         }

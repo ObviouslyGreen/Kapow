@@ -92,6 +92,7 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
                              Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.fragment_page, container, false);
+        // Creat button for file input
         ((Button) v.findViewById(R.id.file_input_button))
                 .setOnClickListener(new View.OnClickListener()
                                     {
@@ -196,6 +197,7 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
     public void displayPhoto(Uri uri)
     {
         ImageView img;
+        // Only allow up to six images
         switch (counter){
             case 1:
                 img = (ImageView) getView().findViewById(R.id.display_image_1);
