@@ -223,6 +223,7 @@ public class FilterFragment extends Fragment
         mListener = null;
     }
 
+    //Button Action
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (resultCode == Activity.RESULT_OK)
@@ -245,7 +246,6 @@ public class FilterFragment extends Fragment
         // FUNCTION RUNS IN BACKGROUND THREAD
         // UI changes will crash the app
         Uri filteredUri = null;
-        //Toast.makeText(MyApplication.getAppContext(), "Filtering Started!", Toast.LENGTH_LONG).show();
         try
         {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
@@ -264,7 +264,7 @@ public class FilterFragment extends Fragment
                     filteredUri = mean_shift(bitmap, sp, sr, maxLevel);
                 } else
                 {
-                    //Toast.makeText(MyApplication.getAppContext(), "Invalid arguments", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyApplication.getAppContext(), "Invalid arguments", Toast.LENGTH_SHORT).show();
                     return null;
                 }
             } else if (currFilter.equals("Bilateral Filter"))
@@ -280,7 +280,7 @@ public class FilterFragment extends Fragment
                     filteredUri = bilateral(bitmap, d, sigmaColor, sigmaSpace);
                 } else
                 {
-                    //Toast.makeText(MyApplication.getAppContext(), "Invalid arguments", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyApplication.getAppContext(), "Invalid arguments", Toast.LENGTH_SHORT).show();
                     return null;
                 }
             } else if (currFilter.equals("Grayscale Filter"))
@@ -318,6 +318,7 @@ public class FilterFragment extends Fragment
 
         Bitmap bmpoutMS = matToBmp(out, bmp.getHeight(), bmp.getWidth());
 
+        //Apply Toon Filter for black edges
         GPUImage mGPUImage = new GPUImage(MyApplication.getAppContext());
         mGPUImage.setFilter(new GPUImageToonFilter());
         mGPUImage.setImage(bmpoutMS);
@@ -412,6 +413,7 @@ public class FilterFragment extends Fragment
         } catch (Exception e)
         {
         }
+
         // Saves on sd card, Pictures/Kapow
         file = new File(sd, "Kapow/" + "output.png");
         while (file.exists())
@@ -419,8 +421,10 @@ public class FilterFragment extends Fragment
             counter++;
             file = new File(sd, "Kapow/" + "output" + "(" + counter + ").png");
         }
+
         try
         {
+            //Save Image to Path
             fOut = new FileOutputStream(file);
             in.compress(Bitmap.CompressFormat.PNG, 100, fOut);
             fOut.flush();

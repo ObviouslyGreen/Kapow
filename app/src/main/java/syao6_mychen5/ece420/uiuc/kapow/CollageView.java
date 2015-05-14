@@ -1,9 +1,5 @@
 package syao6_mychen5.ece420.uiuc.kapow;
 
-/**
- * Created by Michael on 4/28/2015.
- */
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -36,6 +32,7 @@ public class CollageView extends ImageView
         initBorderPaint();
     }
 
+    //Black Border
     private void initBorderPaint()
     {
         mBorderPaint = new Paint();

@@ -49,7 +49,6 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     static String sender;
-    ArrayList<Message> messages;
     EditText textl, textr;
     int ButtonType = -1;
     int fontType = 0;
@@ -153,6 +152,8 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
         textl.setVisibility(View.GONE);
         textr = (EditText) v.findViewById(R.id.textright);
         textr.setVisibility(View.GONE);
+
+        //Create Buttons
         v.findViewById(R.id.file_input_button)
                 .setOnClickListener(new View.OnClickListener()
                                     {
@@ -166,24 +167,28 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
                                         }
                                     }
                 );
+
         textl.setOnKeyListener(new View.OnKeyListener()
         {
             public boolean onKey(View v, int keyCode, KeyEvent event)
             {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER))
                 {
+                    //Get Text
                     textl.setText("");
                     return true;
                 }
                 return false;
             }
         });
+
         textr.setOnKeyListener(new View.OnKeyListener()
         {
             public boolean onKey(View v, int keyCode, KeyEvent event)
             {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER))
                 {
+                    //Get Text
                     textr.setText("");
                     return true;
                 }
@@ -202,11 +207,6 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
                 .setOnClickListener(this);
         v.findViewById(R.id.change_font_button)
                 .setOnClickListener(this);
-        /*messages = new ArrayList<Message>();
-        messages.add(new Message("testyoyoswag.", true));
-        adapter = new AwesomeAdapter(MyApplication.getAppContext(), messages);
-        ListView listV = (ListView) v.findViewById(R.id.listView1);
-        listV.setAdapter(adapter);*/
         return v;
     }
 
@@ -239,6 +239,7 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
         mListener = null;
     }
 
+    //Button Actions
     @Override
     public void onClick(View view)
     {
@@ -299,12 +300,15 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
                 type = Typeface.SANS_SERIF;
                 break;
             case 1:
+                //Orange Juice
                 type = Typeface.createFromAsset(MyApplication.getAppContext().getAssets(), "fonts/orangejuice/orangejuice.ttf");
                 break;
             case 2:
+                //Badaboom
                 type = Typeface.createFromAsset(MyApplication.getAppContext().getAssets(), "fonts/bdb/bdb.ttf");
                 break;
             case 3:
+                //From Cartoon Blocks
                 type = Typeface.createFromAsset(MyApplication.getAppContext().getAssets(), "fonts/fcb/FromCartoonBlocks.ttf");
                 break;
             default:
@@ -322,6 +326,8 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
         OutputStream fOut = null;
         File file; // the File to save to
         String path = null;
+
+        //Get Directory
         File sd = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
         File directory = new File(sd, "Kapow");
@@ -331,7 +337,9 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
         } catch (Exception e)
         {
         }
+
         file = new File(sd, "Kapow/" + "ComicPanel.png");
+
         while (file.exists())
         {
             counter++;
@@ -339,11 +347,11 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
         }
         try
         {
+            //Save Image to Path
             fOut = new FileOutputStream(file);
             bmpout.compress(Bitmap.CompressFormat.PNG, 100, fOut);
             fOut.flush();
             fOut.close();
-            Log.w("myAPP", "SWAG");
             path = MediaStore.Images.Media.insertImage(MyApplication.getAppContext().getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
             Toast.makeText(MyApplication.getAppContext(), "Save Successful", Toast.LENGTH_SHORT).show();
         } catch (FileNotFoundException e)
@@ -380,13 +388,14 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
                 return true;
             }
         });
-        //img.setOnTouchListener(new MultiTouchListener());
         img.setImageURI(uri);
     }
 
     private void finishBubble(View v) throws IOException
     {
         EditText et;
+
+        //Check Which Bubble: Left or Right
         if (ButtonType == 0)
         {
             TextView tv = (TextView) getView().findViewById(R.id.textleft);
@@ -403,6 +412,8 @@ public class BubbleFragment extends Fragment implements View.OnClickListener
             Toast.makeText(MyApplication.getAppContext(), "No Speech Bubble Made", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        //Change to ImageView and turn on CollageViews
         ImageView img = (ImageView) getView().findViewById(R.id.test);
         et.buildDrawingCache();
         img.setImageBitmap(et.getDrawingCache());

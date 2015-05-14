@@ -77,13 +77,8 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
 
     public static Bitmap loadBitmapFromView(Context context, ViewGroup v)
     {
-
-       /* Toast.makeText(context,
-                v.getMeasuredHeight() + "::::::::::::" + v.getMeasuredWidth(),
-                Toast.LENGTH_LONG).show();*/
         if (v.getMeasuredHeight() > 0)
         {
-
             v.measure(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
             Bitmap b = Bitmap.createBitmap(v.getWidth(), v.getHeight(),
@@ -92,11 +87,9 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
             v.draw(new Canvas(b));
 
             return b;
-
         }
 
         return null;
-
     }
 
     @Override
@@ -115,7 +108,7 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
                              Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.fragment_page, container, false);
-        // Creat button for file input
+        // Create button for file input
         v.findViewById(R.id.file_input_button)
                 .setOnClickListener(new View.OnClickListener()
                                     {
@@ -166,6 +159,7 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
         mListener = null;
     }
 
+    //Button Actions
     @Override
     public void onClick(View view)
     {
@@ -230,6 +224,8 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
                 img = (ImageView) getView().findViewById(R.id.display_image);
                 break;
         }
+
+        //Turn on CollageViews for image
         getView().findViewById(R.id.collageBgView).setOnTouchListener(new View.OnTouchListener()
         {
 
@@ -251,6 +247,8 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
         OutputStream fOut = null;
         File file; // the File to save to
         String path = null;
+
+        //Get Directory
         File sd = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
         File directory = new File(sd, "Kapow/Pages");
@@ -260,14 +258,18 @@ public class ComicPageFragment extends Fragment implements View.OnClickListener
         } catch (Exception e)
         {
         }
+
         file = new File(sd, "Kapow/Pages" + "ComicPage.png");
+
         while (file.exists())
         {
             counter++;
             file = new File(sd, "Kapow/Pages" + "ComicPage" + "(" + counter + ").png");
         }
+
         try
         {
+            //Save Image to Path
             fOut = new FileOutputStream(file);
             bmpout.compress(Bitmap.CompressFormat.PNG, 100, fOut);
             fOut.flush();
